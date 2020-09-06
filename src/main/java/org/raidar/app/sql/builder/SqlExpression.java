@@ -43,7 +43,7 @@ public class SqlExpression implements SqlClause {
         // Nothing to do.
     }
 
-    public SqlExpression nil() {
+    public SqlExpression nihil() {
         return literal(NULL_VALUE);
     }
 
