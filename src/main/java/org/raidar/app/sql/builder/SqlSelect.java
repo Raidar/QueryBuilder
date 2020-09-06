@@ -140,6 +140,9 @@ public class SqlSelect extends SqlOperator {
         return from(schemaName, tableName, alias, null);
     }
 
+    // to-do: from query
+    // to-do: join (all types)
+
     public SqlSelect where(SqlCondition condition) {
 
         if (!SqlSelectPartEnum.whereAllowed(part))
