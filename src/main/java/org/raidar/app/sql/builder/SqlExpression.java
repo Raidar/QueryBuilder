@@ -44,20 +44,20 @@ public class SqlExpression implements SqlClause {
     }
 
     public SqlExpression nil() {
-        return withValue(NULL_VALUE);
+        return literal(NULL_VALUE);
     }
 
     public SqlExpression field(String name) {
-        return withValue(name);
+        return literal(name);
     }
 
     public SqlExpression param(String name) {
-        return withValue(BIND_PREFIX + name);
+        return literal(BIND_PREFIX + name);
     }
 
     public SqlExpression value(Serializable value) {
         // to-do: из QueryWithParams
-        return withValue(value != null ? value.toString() : null);
+        return literal(value != null ? value.toString() : null);
     }
 
     public SqlExpression not() {
@@ -130,43 +130,47 @@ public class SqlExpression implements SqlClause {
 
     /** Унарный префиксный оператор. */
     protected SqlExpression prefixed(String operator) {
-        return withText(operator + this.expression);
+        return with(operator + this.expression);
     }
 
     /** Унарный суффиксный оператор. */
     protected SqlExpression postfixed(String operator) {
-        return withText(this.expression + operator);
+        return with(this.expression + operator);
     }
 
     /** Бинарный оператор. */
     protected SqlExpression binary(String operator, SqlExpression operand) {
-        return withText(this.expression + operator + operand.expression);
+        return with(this.expression + operator + operand.expression);
     }
 
     /** Диапазонный оператор. */
     protected SqlExpression ranged(String operator, SqlExpression left,
                                    String separator, SqlExpression right) {
-        return withText(this.expression + operator + left.expression + separator + right.expression);
+        return with(this.expression + operator + left.expression + separator + right.expression);
     }
 
-    protected SqlExpression withValue(String value) {
+    protected SqlExpression literal(String argument) {
 
-        if (!SqlExpressionPartEnum.valueAllowed(part))
-            throw new IllegalArgumentException("Value is not allowed.");
+        if (!SqlExpressionPartEnum.literalAllowed(part))
+            throw new IllegalArgumentException("A LITERAL is not allowed.");
 
-        if (!SqlUtils.isBlank(value)) {
-            this.expression = value;
+        if (SqlUtils.isBlank(argument))
+            throw new IllegalArgumentException("A LITERAL argument is empty.");
 
-            part = SqlExpressionPartEnum.VALUE;
-        }
+        this.expression = argument;
+
+        part = SqlExpressionPartEnum.LITERAL;
 
         return this;
     }
 
-    protected SqlExpression withText(String expression) {
+    protected SqlExpression with(String expression) {
 
         if (!SqlExpressionPartEnum.expressionAllowed(part))
-            throw new IllegalArgumentException("Expression is not allowed.");
+            throw new IllegalArgumentException("An EXPRESSION is not allowed.");
+
+        if (SqlUtils.isBlank(expression))
+            throw new IllegalArgumentException("An EXPRESSION argument is empty.");
 
         if (!SqlUtils.isBlank(expression)) {
             this.expression = expression;
@@ -189,7 +193,7 @@ public class SqlExpression implements SqlClause {
 
     @Override
     public SqlExpression enclosed() {
-        return isEmpty() ? this : withText(enclose(this.expression));
+        return isEmpty() ? this : with(enclose(this.expression));
     }
 
     @Override

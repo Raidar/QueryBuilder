@@ -6,15 +6,15 @@ import static java.util.List.of;
 public enum SqlExpressionPartEnum {
 
     EMPTY,
-    VALUE,
+    LITERAL,
     EXPRESSION
     ;
 
-    public static boolean valueAllowed(SqlExpressionPartEnum value) {
+    public static boolean literalAllowed(SqlExpressionPartEnum value) {
         return SqlExpressionPartEnum.EMPTY.equals(value);
     }
 
     public static boolean expressionAllowed(SqlExpressionPartEnum value) {
-        return of(SqlExpressionPartEnum.VALUE, SqlExpressionPartEnum.EXPRESSION).contains(value);
+        return of(SqlExpressionPartEnum.LITERAL, SqlExpressionPartEnum.EXPRESSION).contains(value);
     }
 }
