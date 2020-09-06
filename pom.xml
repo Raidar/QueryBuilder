@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>Simple SQL query builder</name>
-    <description>Query builder template without Spring etc</description>
+    <description>Query builder lightweight template</description>
 
     <organization>
         <name>Raidar</name>
