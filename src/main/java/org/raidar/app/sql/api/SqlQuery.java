@@ -1,10 +1,11 @@
 package org.raidar.app.sql.api;
 
-import java.io.Serializable;
-import java.util.Map;
+import java.util.List;
 
 /** SQL-запрос. */
 public interface SqlQuery extends SqlClause {
 
-    Map<String, Serializable> getParams();
+    List<? extends SqlParam> getParams();
+
+    String toParamText();
 }

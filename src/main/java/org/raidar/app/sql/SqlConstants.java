@@ -1,22 +1,46 @@
 package org.raidar.app.sql;
 
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class SqlConstants {
 
+    // Types:
+    public static final String TIMESTAMP_WITH_TIME_ZONE = "timestamp with time zone";
+    public static final String TIMESTAMP_WITHOUT_TIME_ZONE = "timestamp without time zone";
+
+    // Values:
     public static final String NULL_VALUE = "null";
     public static final String TRUE_VALUE = "true";
     public static final String FALSE_VALUE = "false";
     public static final String UNKNOWN_VALUE = "unknown";
 
+    // Notation:
     public static final String BIND_PREFIX = ":";
+    public static final String CAST_OPERATOR = "\\:\\:";
 
     public static final String QUERY_NEW_LINE = "\n";
     public static final String LIST_SEPARATOR = ",\n";
     public static final String NAME_SEPARATOR = ".";
+    public static final String CLAUSE_SEPARATOR = " ";
 
     // By default, NAMEDATALEN is 64 so the maximum identifier length is 63 bytes.
     private static final int NAME_DATA_LEN = 64;
     private static final String NAME_REGEX = "[A-Za-z][A-Za-z\\d_]{0," + (NAME_DATA_LEN - 2) + "}";
     public static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
+
+    public static final String MIN_TIMESTAMP_VALUE = "'-infinity'";
+    public static final String MAX_TIMESTAMP_VALUE = "'infinity'";
+
+    // Date format to use in queries.
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    public static final String SQL_DATE_FORMAT = "DD.MM.YYYY";
+
+    // Datetime format to use in queries.
+    private static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
+    public static final String SQL_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS";
+
+    public static final String TO_TIMESTAMP_FORMAT = "to_timestamp(%1$s, %2$s)";
 }

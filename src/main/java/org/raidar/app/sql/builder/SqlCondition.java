@@ -22,9 +22,8 @@ public class SqlCondition extends SqlBuilder {
 
     protected SqlCondition add(String operator, SqlExpression expression) {
 
-        String value = expression != null ? expression.getText() : null;
-        if (SqlUtils.isEmpty(value))
-            return this;
+        if (SqlUtils.isEmpty(expression))
+            throw new IllegalArgumentException("The expression is empty.");
 
         if (!isEmpty() || !SqlUtils.isEmpty(operator)) {
             append(operator);
