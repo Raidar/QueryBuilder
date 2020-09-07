@@ -14,8 +14,9 @@ public class CustomSqlExpression extends SqlExpression {
 
     public CustomSqlExpression custom(String custom) {
 
-        // Заглушка для проставления пользовательского выражения.
+        // For custom expression insert only:
         literal(SqlConstants.TRUE_VALUE);
+
         return (CustomSqlExpression) with(CUSTOM_AND + custom);
     }
 
