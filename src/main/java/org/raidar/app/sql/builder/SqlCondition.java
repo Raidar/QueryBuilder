@@ -46,7 +46,7 @@ public class SqlCondition extends SqlBuilder {
     protected SqlCondition add(String concat, SqlExpression... expressions) {
 
         for (SqlExpression expression : expressions) {
-            add(concat, expressions);
+            add(concat, expression);
         }
 
         return this;
