@@ -2,16 +2,20 @@ package org.raidar.app.sql.builder;
 
 import org.raidar.app.sql.SqlUtils;
 import org.raidar.app.sql.api.SqlClause;
+import org.raidar.app.sql.api.SqlParamMapper;
+import org.raidar.app.sql.api.SqlQuery;
 import org.raidar.app.sql.model.SqlExpressionPartEnum;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 import static org.raidar.app.sql.SqlConstants.*;
-import static org.raidar.app.sql.SqlUtils.enclose;
 
 /** SQL-выражение. */
+@SuppressWarnings({"unused", "SameParameterValue"})
 public class SqlExpression implements SqlClause {
+
+    private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
 
     // Unary operators:
     private static final String LOGICAL_NOT = "NOT ";
@@ -37,10 +41,20 @@ public class SqlExpression implements SqlClause {
 
     private String expression = "";
 
+    /** Текущая имеющаяся часть выражения. */
     private SqlExpressionPartEnum part = SqlExpressionPartEnum.EMPTY;
 
+    /** Подстановщик значений bind-параметров для некоторых запросов. */
+    private final SqlParamMapper paramMapper;
+
     public SqlExpression() {
-        // Nothing to do.
+
+        this(DEFAULT_PARAM_MAPPER);
+    }
+
+    public SqlExpression(SqlParamMapper paramMapper) {
+
+        this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
     }
 
     public SqlExpression nihil() {
@@ -48,16 +62,23 @@ public class SqlExpression implements SqlClause {
     }
 
     public SqlExpression field(String name) {
+
+        if (SqlUtils.isBlank(name))
+            throw new IllegalArgumentException("A field name is empty.");
+
         return literal(name);
     }
 
     public SqlExpression param(String name) {
+
+        if (SqlUtils.isBlank(name))
+            throw new IllegalArgumentException("A parameter name is empty.");
+
         return literal(BIND_PREFIX + name);
     }
 
     public SqlExpression value(Serializable value) {
-        // to-do: из QueryWithParams
-        return literal(value != null ? value.toString() : null);
+        return literal(paramMapper.toString(null, value));
     }
 
     public SqlExpression not() {
@@ -88,65 +109,112 @@ public class SqlExpression implements SqlClause {
         return postfixed(IS_NOT + FALSE_VALUE);
     }
 
-    public SqlExpression equal(SqlExpression operand) {
+    public SqlExpression equal(SqlClause operand) {
         return binary(EQUAL, operand);
     }
 
-    public SqlExpression notEqual(SqlExpression operand) {
+    public SqlExpression notEqual(SqlClause operand) {
         return binary(NOT_EQUAL, operand);
     }
 
-    public SqlExpression lessThan(SqlExpression operand) {
+    public SqlExpression lessThan(SqlClause operand) {
         return binary(LESS_THAN, operand);
     }
 
-    public SqlExpression lessThanOrEqual(SqlExpression operand) {
+    public SqlExpression lessThanOrEqual(SqlClause operand) {
         return binary(LESS_THAN_OR_EQUAL, operand);
     }
 
-    public SqlExpression greaterThan(SqlExpression operand) {
+    public SqlExpression greaterThan(SqlClause operand) {
         return binary(GREATER_THAN, operand);
     }
 
-    public SqlExpression greaterThanOrEqual(SqlExpression operand) {
+    public SqlExpression greaterThanOrEqual(SqlClause operand) {
         return binary(GREATER_THAN_OR_EQUAL, operand);
     }
 
-    public SqlExpression identical(SqlExpression operand) {
+    public SqlExpression identical(SqlClause operand) {
         return binary(IDENTICAL, operand);
     }
 
-    public SqlExpression notIdentical(SqlExpression operand) {
+    public SqlExpression notIdentical(SqlClause operand) {
         return binary(NOT_IDENTICAL, operand);
     }
 
-    public SqlExpression between(SqlExpression left, SqlExpression right) {
+    public SqlExpression between(SqlClause left, SqlClause right) {
         return ranged(BETWEEN, left, BETWEEN_CONCAT, right);
     }
 
-    public SqlExpression notBetween(SqlExpression left, SqlExpression right) {
+    public SqlExpression notBetween(SqlClause left, SqlClause right) {
         return ranged(NOT_BETWEEN, left, BETWEEN_CONCAT, right);
     }
 
     /** Унарный префиксный оператор. */
     protected SqlExpression prefixed(String operator) {
+
+        if (SqlUtils.isBlank(operator))
+            throw new IllegalArgumentException("A prefixed operator is empty.");
+
         return with(operator + this.expression);
     }
 
     /** Унарный суффиксный оператор. */
     protected SqlExpression postfixed(String operator) {
+
+        if (SqlUtils.isBlank(operator))
+            throw new IllegalArgumentException("A postfixed operator is empty.");
+
         return with(this.expression + operator);
     }
 
     /** Бинарный оператор. */
-    protected SqlExpression binary(String operator, SqlExpression operand) {
-        return with(this.expression + operator + operand.expression);
+    protected SqlExpression binary(String operator, SqlClause operand) {
+
+        if (SqlUtils.isBlank(operator))
+            throw new IllegalArgumentException("A binary operator is empty.");
+
+        if (SqlUtils.isEmpty(operand))
+            throw new IllegalArgumentException(String.format("An operand for '%s' is empty.", operator));
+
+        return with(this.expression + operator + operand.getText());
+    }
+
+    /** Тернарный оператор. */
+    protected SqlExpression ternary(String operator1, SqlClause operand1,
+                                    String operator2, SqlClause operand2) {
+
+        if (SqlUtils.isBlank(operator1))
+            throw new IllegalArgumentException("A ternary first operator is empty.");
+
+        if (SqlUtils.isBlank(operator2))
+            throw new IllegalArgumentException("A ternary second operator is empty.");
+
+        if (SqlUtils.isEmpty(operand1))
+            throw new IllegalArgumentException(String.format("An operand for '%s' is empty.", operator1));
+
+        if (SqlUtils.isEmpty(operand2))
+            throw new IllegalArgumentException(String.format("An operand for '%s' is empty.", operator2));
+
+        return with(this.expression + operator1 + operand1.getText() + operator2 + operand2.getText());
     }
 
     /** Диапазонный оператор. */
-    protected SqlExpression ranged(String operator, SqlExpression left,
-                                   String separator, SqlExpression right) {
-        return with(this.expression + operator + left.expression + separator + right.expression);
+    protected SqlExpression ranged(String operator, SqlClause left,
+                                   String separator, SqlClause right) {
+
+        if (SqlUtils.isBlank(operator))
+            throw new IllegalArgumentException("A ranged operator is empty.");
+
+        if (SqlUtils.isBlank(separator))
+            throw new IllegalArgumentException("A ranged separator is empty.");
+
+        if (SqlUtils.isEmpty(left))
+            throw new IllegalArgumentException(String.format("A left operand for '%s' operator is empty.", operator));
+
+        if (SqlUtils.isEmpty(right))
+            throw new IllegalArgumentException(String.format("A right operand for '%s' operator is empty.", operator));
+
+        return with(this.expression + operator + left.getText() + separator + right.getText());
     }
 
     protected SqlExpression literal(String argument) {
@@ -192,8 +260,8 @@ public class SqlExpression implements SqlClause {
     }
 
     @Override
-    public SqlExpression enclosed() {
-        return isEmpty() ? this : with(enclose(this.expression));
+    public SqlExpression enclose() {
+        return isEmpty() ? this : with(SqlUtils.enclose(this.expression));
     }
 
     @Override

@@ -9,5 +9,5 @@ public interface SqlClause extends Serializable {
 
     boolean isEmpty();
 
-    SqlClause enclosed();
+    SqlClause enclose();
 }

@@ -4,14 +4,15 @@ import org.raidar.app.sql.SqlUtils;
 import org.raidar.app.sql.model.SqlSelectPartEnum;
 
 import static org.raidar.app.sql.SqlConstants.*;
-import static org.raidar.app.sql.SqlUtils.enclose;
 import static org.raidar.app.sql.SqlUtils.isBlank;
 
 /** SQL-оператор SELECT. */
+@SuppressWarnings({"unused", "SameParameterValue"})
 public class SqlSelect extends SqlOperator {
 
     private static final String ALIAS_OPERATOR = " AS ";
 
+    /** Текущая имеющаяся часть оператора. */
     private SqlSelectPartEnum part = SqlSelectPartEnum.EMPTY;
 
     public SqlSelect() {
@@ -35,10 +36,10 @@ public class SqlSelect extends SqlOperator {
         append(name);
 
         if (!SqlUtils.isEmpty(columns)) {
-            append(enclose(columns));
+            append(SqlUtils.enclose(columns));
         }
 
-        append(ALIAS_OPERATOR).append(operator.enclosed().getText()).bind(operator.getParameters());
+        append(ALIAS_OPERATOR).append(SqlUtils.enclose(operator.getText())).bind(operator.getParameters());
 
         part = SqlSelectPartEnum.WITH;
 
@@ -127,7 +128,7 @@ public class SqlSelect extends SqlOperator {
         }
 
         if (!SqlUtils.isEmpty(columnAliases)) {
-            append(enclose(columnAliases));
+            append(SqlUtils.enclose(columnAliases));
         }
 
         part = SqlSelectPartEnum.FROM;

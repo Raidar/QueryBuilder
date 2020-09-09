@@ -13,6 +13,7 @@ import java.util.Objects;
 import static org.raidar.app.sql.SqlConstants.BIND_PREFIX;
 
 /** Построитель SQL-запроса. */
+@SuppressWarnings({"unused", "SameParameterValue"})
 public class SqlBuilder implements SqlQuery {
 
     private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
@@ -23,6 +24,7 @@ public class SqlBuilder implements SqlQuery {
     /** Список bind-параметров. */
     private final List<SqlParameter> params = new ArrayList<>();
 
+    /** Подстановщик значений bind-параметров для некоторых запросов. */
     private final SqlParamMapper paramMapper;
 
     public SqlBuilder() {
@@ -114,7 +116,7 @@ public class SqlBuilder implements SqlQuery {
     }
 
     @Override
-    public SqlBuilder enclosed() {
+    public SqlBuilder enclose() {
 
         builder.insert(0, "(").append(")");
         return this;

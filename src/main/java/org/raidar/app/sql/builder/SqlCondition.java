@@ -1,6 +1,7 @@
 package org.raidar.app.sql.builder;
 
 import org.raidar.app.sql.SqlUtils;
+import org.raidar.app.sql.api.SqlClause;
 
 /** Условие SQL-оператора. */
 public class SqlCondition extends SqlBuilder {
@@ -12,40 +13,40 @@ public class SqlCondition extends SqlBuilder {
         // Nothing to do.
     }
 
-    public SqlCondition and(SqlExpression expression) {
-        return add(LOGICAL_AND, expression);
+    public SqlCondition and(SqlClause clause) {
+        return add(LOGICAL_AND, clause);
     }
 
-    public SqlCondition or(SqlExpression expression) {
-        return add(LOGICAL_OR, expression);
+    public SqlCondition or(SqlClause clause) {
+        return add(LOGICAL_OR, clause);
     }
 
-    protected SqlCondition add(String operator, SqlExpression expression) {
+    protected SqlCondition add(String operator, SqlClause clause) {
 
-        if (SqlUtils.isEmpty(expression))
-            throw new IllegalArgumentException("The expression is empty.");
+        if (SqlUtils.isEmpty(clause))
+            throw new IllegalArgumentException("The clause is empty.");
 
         if (!isEmpty() || !SqlUtils.isEmpty(operator)) {
             append(operator);
         }
 
-        append(expression.enclosed().getText());
+        append(SqlUtils.enclose(clause.getText()));
 
         return this;
     }
 
-    public SqlCondition and(SqlExpression... expressions) {
-        return add(LOGICAL_AND, expressions);
+    public SqlCondition and(SqlClause... clauses) {
+        return add(LOGICAL_AND, clauses);
     }
 
-    public SqlCondition or(SqlExpression... expressions) {
-        return add(LOGICAL_OR, expressions);
+    public SqlCondition or(SqlClause... clauses) {
+        return add(LOGICAL_OR, clauses);
     }
 
-    protected SqlCondition add(String concat, SqlExpression... expressions) {
+    protected SqlCondition add(String concat, SqlClause... clauses) {
 
-        for (SqlExpression expression : expressions) {
-            add(concat, expression);
+        for (SqlClause clause : clauses) {
+            add(concat, clause);
         }
 
         return this;
