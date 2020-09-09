@@ -2,8 +2,6 @@ package org.raidar.app.sql;
 
 import org.raidar.app.sql.api.SqlClause;
 import org.raidar.app.sql.api.SqlQuery;
-import org.raidar.app.sql.builder.SqlBuilder;
-import org.raidar.app.sql.builder.SqlExpression;
 
 import java.time.LocalDateTime;
 
@@ -23,8 +21,16 @@ public class SqlUtils {
         return s == null || s.trim().length() == 0;
     }
 
-    public static String enclose(String sql) {
-        return "(" + sql + ")";
+    public static String enclose(String clause) {
+        return enclose(clause, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
+    }
+
+    public static String enclose(SqlQuery query) {
+        return enclose(query.getText(), NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
+    }
+
+    private static String enclose(String sql, String prefix, String suffix) {
+        return prefix + sql + suffix;
     }
 
     public static String escapeName(String name) {

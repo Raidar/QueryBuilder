@@ -24,6 +24,11 @@ public class SqlConstants {
     public static final String NAME_SEPARATOR = ".";
     public static final String CLAUSE_SEPARATOR = " ";
 
+    public static final String DEFAULT_ENCLOSE_START = "(";
+    public static final String DEFAULT_ENCLOSE_END = ")";
+    public static final String NEWLINE_ENCLOSE_START = "(\n";
+    public static final String NEWLINE_ENCLOSE_END = "\n)";
+
     // By default, NAMEDATALEN is 64 so the maximum identifier length is 63 bytes.
     private static final int NAME_DATA_LEN = 64;
     private static final String NAME_REGEX = "[A-Za-z][A-Za-z\\d_]{0," + (NAME_DATA_LEN - 2) + "}";
