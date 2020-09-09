@@ -39,6 +39,11 @@ public class SqlExpression implements SqlClause {
     private static final String NOT_BETWEEN = " not between ";
     private static final String BETWEEN_CONCAT = " and ";
 
+    private static final String LIKE = " LIKE ";
+    private static final String NOT_LIKE = " NOT LIKE ";
+    private static final String LIKE_ESCAPE = " ESCAPE ";
+
+    /** Текущее выражение. */
     private String expression = "";
 
     /** Текущая имеющаяся часть выражения. */
@@ -147,6 +152,22 @@ public class SqlExpression implements SqlClause {
 
     public SqlExpression notBetween(SqlClause left, SqlClause right) {
         return ranged(NOT_BETWEEN, left, BETWEEN_CONCAT, right);
+    }
+
+    public SqlExpression like(SqlClause operand) {
+        return binary(LIKE, operand);
+    }
+
+    public SqlExpression notLike(SqlClause operand) {
+        return binary(NOT_LIKE, operand);
+    }
+
+    public SqlExpression likeEscape(SqlClause operand, SqlClause escape) {
+        return ternary(LIKE, operand, LIKE_ESCAPE, escape);
+    }
+
+    public SqlExpression notLikeEscape(SqlClause operand, SqlClause escape) {
+        return ternary(NOT_LIKE, operand, LIKE_ESCAPE, escape);
     }
 
     /** Унарный префиксный оператор. */
