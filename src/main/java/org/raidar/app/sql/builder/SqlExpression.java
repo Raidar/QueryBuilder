@@ -18,6 +18,9 @@ public class SqlExpression implements SqlClause {
     private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
 
     // Unary operators:
+    private static final String EXISTS = "EXISTS";
+    private static final String NOT_EXISTS = "NOT EXISTS";
+
     private static final String LOGICAL_NOT = "NOT ";
     private static final String IS = " is ";
     private static final String IS_NOT = " is not ";
@@ -84,6 +87,14 @@ public class SqlExpression implements SqlClause {
 
     public SqlExpression value(Serializable value) {
         return literal(paramMapper.toString(null, value));
+    }
+
+    public SqlExpression exists(SqlQuery subquery) {
+
+        if (SqlUtils.isEmpty(subquery))
+            throw new IllegalArgumentException("A subquery is empty.");
+
+        return extra(EXISTS + SqlUtils.enclose(subquery));
     }
 
     public SqlExpression not() {
@@ -261,11 +272,24 @@ public class SqlExpression implements SqlClause {
         if (SqlUtils.isBlank(expression))
             throw new IllegalArgumentException("An EXPRESSION argument is empty.");
 
-        if (!SqlUtils.isBlank(expression)) {
-            this.expression = expression;
+        this.expression = expression;
 
-            part = SqlExpressionPartEnum.EXPRESSION;
-        }
+        part = SqlExpressionPartEnum.EXPRESSION;
+
+        return this;
+    }
+
+    protected SqlExpression extra(String expression) {
+
+        if (!SqlExpressionPartEnum.literalAllowed(part))
+            throw new IllegalArgumentException("An EXPRESSION is not allowed.");
+
+        if (SqlUtils.isBlank(expression))
+            throw new IllegalArgumentException("An EXPRESSION argument is empty.");
+
+        this.expression = expression;
+
+        part = SqlExpressionPartEnum.EXPRESSION;
 
         return this;
     }

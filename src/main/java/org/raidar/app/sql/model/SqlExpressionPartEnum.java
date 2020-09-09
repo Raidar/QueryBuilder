@@ -3,6 +3,7 @@ package org.raidar.app.sql.model;
 import static java.util.List.of;
 
 /** Часть SQL-выражения. */
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public enum SqlExpressionPartEnum {
 
     EMPTY,
