@@ -39,7 +39,7 @@ public class SqlSelect extends SqlOperator {
             append(SqlUtils.enclose(columns));
         }
 
-        append(ALIAS_OPERATOR).append(SqlUtils.enclose(operator.getText())).bind(operator.getParameters());
+        append(ALIAS_OPERATOR).append(SqlUtils.enclose(operator)).bind(operator.getParameters());
 
         part = SqlSelectPartEnum.WITH;
 

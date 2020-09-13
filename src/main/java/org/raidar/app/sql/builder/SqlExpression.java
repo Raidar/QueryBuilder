@@ -310,10 +310,12 @@ public class SqlExpression implements SqlClause {
     @Override
     public SqlExpression enclose() {
 
-        if (SqlUtils.isBlank(this.expression))
+        if (isEmpty())
             throw new IllegalArgumentException("An expression is empty.");
 
-        this.expression = SqlUtils.enclose(this.expression);
+        this.expression = this.expression.contains(QUERY_NEW_LINE)
+                ? SqlUtils.enclose(this)
+                : SqlUtils.enclose(this.expression);
 
         return this;
     }
