@@ -89,12 +89,12 @@ public class SqlExpression implements SqlClause {
         return literal(paramMapper.toString(null, value));
     }
 
-    public SqlExpression exists(SqlQuery subquery) {
+    public SqlExpression exists(SqlQuery query) {
+        return subquery(query).prefixed(EXISTS);
+    }
 
-        if (SqlUtils.isEmpty(subquery))
-            throw new IllegalArgumentException("A subquery is empty.");
-
-        return extra(EXISTS + SqlUtils.enclose(subquery));
+    public SqlExpression notExists(SqlQuery query) {
+        return subquery(query).prefixed(NOT_EXISTS);
     }
 
     public SqlExpression not() {
@@ -249,13 +249,14 @@ public class SqlExpression implements SqlClause {
         return with(this.expression + operator + left.getText() + separator + right.getText());
     }
 
+    /** Литерал. */
     protected SqlExpression literal(String argument) {
 
         if (!SqlExpressionPartEnum.literalAllowed(part))
-            throw new IllegalArgumentException("A LITERAL is not allowed.");
+            throw new IllegalArgumentException("A literal is not allowed.");
 
         if (SqlUtils.isBlank(argument))
-            throw new IllegalArgumentException("A LITERAL argument is empty.");
+            throw new IllegalArgumentException("A literal argument is empty.");
 
         this.expression = argument;
 
@@ -264,13 +265,14 @@ public class SqlExpression implements SqlClause {
         return this;
     }
 
+    /** Выражение с использованием литерала. */
     protected SqlExpression with(String expression) {
 
         if (!SqlExpressionPartEnum.expressionAllowed(part))
-            throw new IllegalArgumentException("An EXPRESSION is not allowed.");
+            throw new IllegalArgumentException("An expression is not allowed.");
 
         if (SqlUtils.isBlank(expression))
-            throw new IllegalArgumentException("An EXPRESSION argument is empty.");
+            throw new IllegalArgumentException("An expression argument is empty.");
 
         this.expression = expression;
 
@@ -279,19 +281,20 @@ public class SqlExpression implements SqlClause {
         return this;
     }
 
-    protected SqlExpression extra(String expression) {
+    /** Подзапрос (для некоторых выражений). */
+    protected SqlExpression subquery(SqlQuery query) {
 
-        if (!SqlExpressionPartEnum.literalAllowed(part))
-            throw new IllegalArgumentException("An EXPRESSION is not allowed.");
+        if (!SqlExpressionPartEnum.subqueryAllowed(part))
+            throw new IllegalArgumentException("A subquery is not allowed.");
 
-        if (SqlUtils.isBlank(expression))
-            throw new IllegalArgumentException("An EXPRESSION argument is empty.");
+        if (SqlUtils.isEmpty(query))
+            throw new IllegalArgumentException("A subquery is empty.");
 
-        this.expression = expression;
+        this.expression = query.getText();
 
-        part = SqlExpressionPartEnum.EXPRESSION;
+        part = SqlExpressionPartEnum.SUBQUERY;
 
-        return this;
+        return enclose();
     }
 
     @Override
@@ -306,7 +309,13 @@ public class SqlExpression implements SqlClause {
 
     @Override
     public SqlExpression enclose() {
-        return isEmpty() ? this : with(SqlUtils.enclose(this.expression));
+
+        if (SqlUtils.isBlank(this.expression))
+            throw new IllegalArgumentException("An expression is empty.");
+
+        this.expression = SqlUtils.enclose(this.expression);
+
+        return this;
     }
 
     @Override
