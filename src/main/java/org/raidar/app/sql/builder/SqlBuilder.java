@@ -48,15 +48,19 @@ public class SqlBuilder implements SqlQuery {
 
     protected SqlBuilder prepend(String clause) {
 
-        builder.insert(0, clause);
+        if (!SqlUtils.isEmpty(clause)) {
+            builder.insert(0, clause);
+        }
+
         return this;
     }
 
     public SqlBuilder bind(String name, Serializable value) {
 
-        if (!SqlUtils.isEmpty(name)) {
-            getParameters().add(new SqlParameter(name, value));
-        }
+        if (SqlUtils.isEmpty(name))
+            throw new IllegalArgumentException("A parameter name is empty.");
+
+        getParameters().add(new SqlParameter(name, value));
 
         return this;
     }
@@ -117,6 +121,9 @@ public class SqlBuilder implements SqlQuery {
 
     @Override
     public SqlBuilder enclose() {
+
+        if (isEmpty())
+            throw new IllegalArgumentException("A query is empty.");
 
         builder.insert(0, "(").append(")");
         return this;
