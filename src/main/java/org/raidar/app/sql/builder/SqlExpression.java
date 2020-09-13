@@ -46,6 +46,9 @@ public class SqlExpression implements SqlClause {
     private static final String NOT_LIKE = " not like ";
     private static final String LIKE_ESCAPE = " escape ";
 
+    private static final String IN = " in ";
+    private static final String NOT_IN = " not in ";
+
     /** Текущее выражение. */
     private String expression = "";
 
@@ -179,6 +182,14 @@ public class SqlExpression implements SqlClause {
 
     public SqlExpression notLikeEscape(SqlClause operand, SqlClause escape) {
         return ternary(NOT_LIKE, operand, LIKE_ESCAPE, escape);
+    }
+
+    public SqlExpression in(SqlQuery query) {
+        return binary(IN, query != null ? query.enclose() : null);
+    }
+
+    public SqlExpression notIn(SqlQuery query) {
+        return binary(NOT_IN, query != null ? query.enclose() : null);
     }
 
     /** Унарный префиксный оператор. */
