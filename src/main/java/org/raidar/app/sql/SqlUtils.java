@@ -25,8 +25,8 @@ public class SqlUtils {
         return enclose(clause, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
     }
 
-    public static String enclose(SqlQuery query) {
-        return enclose(query.getText(), NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
+    public static String enclose(SqlClause clause) {
+        return enclose(clause.getText(), NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
     }
 
     private static String enclose(String sql, String prefix, String suffix) {
