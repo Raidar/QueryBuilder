@@ -18,8 +18,8 @@ public class SqlExpression implements SqlClause {
     private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
 
     // Unary operators:
-    private static final String EXISTS = "EXISTS";
-    private static final String NOT_EXISTS = "NOT EXISTS";
+    private static final String EXISTS = "exists";
+    private static final String NOT_EXISTS = "not exists";
 
     private static final String LOGICAL_NOT = "NOT ";
     private static final String IS = " is ";
@@ -42,9 +42,9 @@ public class SqlExpression implements SqlClause {
     private static final String NOT_BETWEEN = " not between ";
     private static final String BETWEEN_CONCAT = " and ";
 
-    private static final String LIKE = " LIKE ";
-    private static final String NOT_LIKE = " NOT LIKE ";
-    private static final String LIKE_ESCAPE = " ESCAPE ";
+    private static final String LIKE = " like ";
+    private static final String NOT_LIKE = " not like ";
+    private static final String LIKE_ESCAPE = " escape ";
 
     /** Текущее выражение. */
     private String expression = "";
