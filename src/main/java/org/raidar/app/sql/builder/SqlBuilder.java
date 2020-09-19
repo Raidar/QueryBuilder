@@ -28,12 +28,10 @@ public class SqlBuilder implements SqlQuery {
     private final SqlParamMapper paramMapper;
 
     public SqlBuilder() {
-
         this(DEFAULT_PARAM_MAPPER);
     }
 
     public SqlBuilder(SqlParamMapper paramMapper) {
-
         this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
     }
 

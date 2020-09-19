@@ -59,12 +59,10 @@ public class SqlExpression implements SqlClause {
     private final SqlParamMapper paramMapper;
 
     public SqlExpression() {
-
         this(DEFAULT_PARAM_MAPPER);
     }
 
     public SqlExpression(SqlParamMapper paramMapper) {
-
         this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
     }
 
