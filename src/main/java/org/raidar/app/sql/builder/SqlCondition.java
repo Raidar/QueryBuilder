@@ -2,6 +2,7 @@ package org.raidar.app.sql.builder;
 
 import org.raidar.app.sql.SqlUtils;
 import org.raidar.app.sql.api.SqlClause;
+import org.raidar.app.sql.api.SqlParamMapper;
 
 /** Условие SQL-оператора. */
 public class SqlCondition extends SqlBuilder {
@@ -10,7 +11,11 @@ public class SqlCondition extends SqlBuilder {
     private static final String LOGICAL_OR = " OR ";
 
     public SqlCondition() {
-        // Nothing to do.
+        super();
+    }
+
+    public SqlCondition(SqlParamMapper paramMapper) {
+        super(paramMapper);
     }
 
     public SqlCondition and(SqlClause clause) {
