@@ -49,8 +49,8 @@ public class SqlParameter implements SqlParam {
     @Override
     public String toString() {
         return "SqlParameter{" +
-                "name=" + name +
-                ", value=" + value +
+                "name='" + name + '\'' +
+                (value != null ? ", value=" + value : "") +
                 '}';
     }
 }
