@@ -1,4 +1,4 @@
-package org.raidar.app.sql;
+package org.raidar.app.sql.impl;
 
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;

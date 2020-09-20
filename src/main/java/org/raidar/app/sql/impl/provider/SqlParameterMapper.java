@@ -1,13 +1,13 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql.impl.provider;
 
-import org.raidar.app.sql.api.SqlParam;
-import org.raidar.app.sql.api.SqlParamMapper;
+import org.raidar.app.sql.api.builder.SqlParam;
+import org.raidar.app.sql.api.provider.SqlParamMapper;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import static org.raidar.app.sql.SqlConstants.NULL_VALUE;
-import static org.raidar.app.sql.SqlUtils.*;
+import static org.raidar.app.sql.impl.SqlConstants.NULL_VALUE;
+import static org.raidar.app.sql.impl.SqlUtils.*;
 
 public class SqlParameterMapper implements SqlParamMapper {
 

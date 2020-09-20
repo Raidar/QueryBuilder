@@ -1,6 +1,4 @@
-package org.raidar.app.sql.api;
-
-import java.util.List;
+package org.raidar.app.sql.api.builder;
 
 /** SQL-раздел - параметризованное SQL-предложение. */
 public interface SqlSection extends SqlClause {

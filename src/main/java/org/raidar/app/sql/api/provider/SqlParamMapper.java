@@ -1,4 +1,6 @@
-package org.raidar.app.sql.api;
+package org.raidar.app.sql.api.provider;
+
+import org.raidar.app.sql.api.builder.SqlParam;
 
 import java.io.Serializable;
 

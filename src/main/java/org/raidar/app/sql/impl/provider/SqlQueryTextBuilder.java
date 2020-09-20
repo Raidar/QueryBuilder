@@ -1,10 +1,10 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql.impl.provider;
 
-import org.raidar.app.sql.api.SqlParam;
-import org.raidar.app.sql.api.SqlParamMapper;
-import org.raidar.app.sql.api.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlParam;
+import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.provider.SqlParamMapper;
 
-import static org.raidar.app.sql.SqlConstants.BIND_PREFIX;
+import static org.raidar.app.sql.impl.SqlConstants.BIND_PREFIX;
 
 public class SqlQueryTextBuilder {
 

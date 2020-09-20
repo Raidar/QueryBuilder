@@ -1,7 +1,7 @@
-package org.raidar.app.sql.builder.custom;
+package org.raidar.app.sql.impl.builder.custom;
 
-import org.raidar.app.sql.SqlConstants;
-import org.raidar.app.sql.builder.SqlExpression;
+import org.raidar.app.sql.impl.SqlConstants;
+import org.raidar.app.sql.impl.builder.SqlExpression;
 
 /** Пользовательское SQL-выражение. */
 public class CustomSqlExpression extends SqlExpression {

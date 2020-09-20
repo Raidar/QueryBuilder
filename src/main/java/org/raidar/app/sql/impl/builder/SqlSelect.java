@@ -1,11 +1,10 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql.impl.builder;
 
-import org.raidar.app.sql.SqlUtils;
-import org.raidar.app.sql.api.SqlParamMapper;
-import org.raidar.app.sql.model.SqlSelectPartEnum;
+import org.raidar.app.sql.api.model.SqlSelectPartEnum;
+import org.raidar.app.sql.impl.SqlUtils;
 
-import static org.raidar.app.sql.SqlConstants.*;
-import static org.raidar.app.sql.SqlUtils.isBlank;
+import static org.raidar.app.sql.impl.SqlConstants.*;
+import static org.raidar.app.sql.impl.SqlUtils.isBlank;
 
 /** SQL-оператор SELECT. */
 @SuppressWarnings({"unused", "SameParameterValue"})
@@ -18,10 +17,6 @@ public class SqlSelect extends SqlOperator {
 
     public SqlSelect() {
         super();
-    }
-
-    public SqlSelect(SqlParamMapper paramMapper) {
-        super(paramMapper);
     }
 
     public SqlSelect with(String name, String columns, SqlOperator operator) {

@@ -1,12 +1,12 @@
-package org.raidar.app.sql;
+package org.raidar.app.sql.impl;
 
-import org.raidar.app.sql.api.SqlClause;
-import org.raidar.app.sql.api.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlClause;
+import org.raidar.app.sql.api.builder.SqlQuery;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import static org.raidar.app.sql.SqlConstants.*;
+import static org.raidar.app.sql.impl.SqlConstants.*;
 
 public class SqlUtils {
 

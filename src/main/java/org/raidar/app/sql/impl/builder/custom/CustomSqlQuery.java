@@ -1,13 +1,13 @@
-package org.raidar.app.sql.builder.custom;
+package org.raidar.app.sql.impl.builder.custom;
 
-import org.raidar.app.sql.api.SqlParamList;
-import org.raidar.app.sql.builder.SqlBuilder;
-import org.raidar.app.sql.builder.SqlQueryTextBuilder;
+import org.raidar.app.sql.api.builder.SqlParamList;
+import org.raidar.app.sql.impl.builder.SqlBuilder;
+import org.raidar.app.sql.impl.provider.SqlQueryTextBuilder;
 
 import java.io.Serializable;
 import java.util.Map;
 
-import static org.raidar.app.sql.SqlConstants.CLAUSE_SEPARATOR;
+import static org.raidar.app.sql.impl.SqlConstants.CLAUSE_SEPARATOR;
 
 // Implement QueryWithParams here:
 /** Пользовательский SQL-запрос. */

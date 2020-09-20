@@ -1,15 +1,16 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql.impl.builder;
 
-import org.raidar.app.sql.SqlUtils;
-import org.raidar.app.sql.api.SqlClause;
-import org.raidar.app.sql.api.SqlParamMapper;
-import org.raidar.app.sql.api.SqlQuery;
-import org.raidar.app.sql.model.SqlExpressionPartEnum;
+import org.raidar.app.sql.api.builder.SqlClause;
+import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.model.SqlExpressionPartEnum;
+import org.raidar.app.sql.api.provider.SqlParamMapper;
+import org.raidar.app.sql.impl.SqlUtils;
+import org.raidar.app.sql.impl.provider.SqlParameterMapper;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import static org.raidar.app.sql.SqlConstants.*;
+import static org.raidar.app.sql.impl.SqlConstants.*;
 
 /** SQL-выражение - составляющая часть условия или вывода SQL-запроса. */
 @SuppressWarnings({"unused", "SameParameterValue"})

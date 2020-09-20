@@ -1,4 +1,4 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql;
 
 import org.junit.Assert;
 

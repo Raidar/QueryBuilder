@@ -1,9 +1,8 @@
-package org.raidar.app.sql.api;
+package org.raidar.app.sql.api.builder;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /** Список SQL-параметров для привязки значения. */
 public interface SqlParamList extends Serializable {

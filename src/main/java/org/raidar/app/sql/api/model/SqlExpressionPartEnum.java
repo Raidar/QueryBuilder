@@ -1,4 +1,4 @@
-package org.raidar.app.sql.model;
+package org.raidar.app.sql.api.model;
 
 import static java.util.List.of;
 

@@ -1,7 +1,8 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql.impl.builder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.raidar.app.sql.SqlBaseTest;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

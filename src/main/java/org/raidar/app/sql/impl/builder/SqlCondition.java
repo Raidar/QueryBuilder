@@ -1,8 +1,7 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql.impl.builder;
 
-import org.raidar.app.sql.SqlUtils;
-import org.raidar.app.sql.api.SqlClause;
-import org.raidar.app.sql.api.SqlParamMapper;
+import org.raidar.app.sql.api.builder.SqlClause;
+import org.raidar.app.sql.impl.SqlUtils;
 
 /** Условие SQL-оператора. */
 public class SqlCondition extends SqlBuilder {
@@ -12,10 +11,6 @@ public class SqlCondition extends SqlBuilder {
 
     public SqlCondition() {
         super();
-    }
-
-    public SqlCondition(SqlParamMapper paramMapper) {
-        super(paramMapper);
     }
 
     public SqlCondition and(SqlClause clause) {

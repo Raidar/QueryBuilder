@@ -1,8 +1,8 @@
-package org.raidar.app.sql.builder;
+package org.raidar.app.sql.impl.builder;
 
-import org.raidar.app.sql.SqlUtils;
-import org.raidar.app.sql.api.SqlParamList;
-import org.raidar.app.sql.api.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlParamList;
+import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.impl.SqlUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
