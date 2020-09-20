@@ -2,12 +2,12 @@ package org.raidar.app.sql.builder;
 
 import org.raidar.app.sql.SqlUtils;
 import org.raidar.app.sql.api.SqlParam;
+import org.raidar.app.sql.api.SqlParamList;
 import org.raidar.app.sql.api.SqlParamMapper;
 import org.raidar.app.sql.api.SqlQuery;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 
 import static org.raidar.app.sql.SqlConstants.BIND_PREFIX;
@@ -22,7 +22,7 @@ public class SqlBuilder implements SqlQuery {
     private final StringBuilder builder = new StringBuilder();
 
     /** Список bind-параметров. */
-    private final List<SqlParameter> params = new ArrayList<>();
+    private final SqlParameterList params = new SqlParameterList();
 
     /** Подстановщик значений bind-параметров для некоторых запросов. */
     private final SqlParamMapper paramMapper;
@@ -33,6 +33,20 @@ public class SqlBuilder implements SqlQuery {
 
     public SqlBuilder(SqlParamMapper paramMapper) {
         this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
+    }
+
+    public void clear() {
+
+        clearText();
+        clearParams();
+    }
+
+    protected void clearText() {
+        builder.setLength(0);
+    }
+
+    protected void clearParams() {
+        params.clear();
     }
 
     protected SqlBuilder append(String clause) {
@@ -55,20 +69,13 @@ public class SqlBuilder implements SqlQuery {
 
     public SqlBuilder bind(String name, Serializable value) {
 
-        if (SqlUtils.isEmpty(name))
-            throw new IllegalArgumentException("A parameter name is empty.");
-
-        getParameters().add(new SqlParameter(name, value));
-
+        params.add(name, value);
         return this;
     }
 
-    public SqlBuilder bind(List<SqlParameter> params) {
+    public SqlBuilder bind(SqlParamList params) {
 
-        if (params != null && !params.isEmpty()) {
-            getParameters().addAll(params);
-        }
-
+        this.params.add(params);
         return this;
     }
 
@@ -83,19 +90,11 @@ public class SqlBuilder implements SqlQuery {
             return result;
 
         // to-do: Переписать для ускорения: проходить sql по ":(bind)" и собирать result.
-        for (SqlParam param : params) {
+        for (SqlParam param : params.get()) {
             result = result.replace(BIND_PREFIX + param.getName(), paramMapper.toString(param));
         }
 
         return result;
-    }
-
-    protected void clearText() {
-        builder.setLength(0);
-    }
-
-    protected void clearParams() {
-        params.clear();
     }
 
     @Override
@@ -104,11 +103,7 @@ public class SqlBuilder implements SqlQuery {
     }
 
     @Override
-    public List<? extends SqlParam> getParams() {
-        return params;
-    }
-
-    protected List<SqlParameter> getParameters() {
+    public SqlParamList getParams() {
         return params;
     }
 

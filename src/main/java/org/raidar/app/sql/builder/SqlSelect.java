@@ -44,7 +44,7 @@ public class SqlSelect extends SqlOperator {
             append(SqlUtils.enclose(columns));
         }
 
-        append(ALIAS_OPERATOR).append(SqlUtils.enclose(operator)).bind(operator.getParameters());
+        append(ALIAS_OPERATOR).append(SqlUtils.enclose(operator)).bind(operator.getParams());
 
         part = SqlSelectPartEnum.WITH;
 
@@ -157,7 +157,7 @@ public class SqlSelect extends SqlOperator {
         if (SqlUtils.isEmpty(condition))
             throw new IllegalArgumentException("The WHERE argument is empty.");
 
-        append("WHERE ").append(condition.getText()).bind(condition.getParameters());
+        append("WHERE ").append(condition.getText()).bind(condition.getParams());
 
         part = SqlSelectPartEnum.WHERE;
 
@@ -167,7 +167,6 @@ public class SqlSelect extends SqlOperator {
     protected void clearText() {
 
         super.clearText();
-
         part = SqlSelectPartEnum.EMPTY;
     }
 

@@ -6,6 +6,7 @@ import org.raidar.app.sql.api.SqlParam;
 import java.io.Serializable;
 import java.util.Objects;
 
+/** Параметр SQL-запроса. */
 public class SqlParameter implements SqlParam {
 
     private final String name;

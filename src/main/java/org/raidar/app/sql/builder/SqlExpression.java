@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import static org.raidar.app.sql.SqlConstants.*;
 
-/** SQL-выражение. */
+/** SQL-выражение - составляющая часть условия или вывода SQL-запроса. */
 @SuppressWarnings({"unused", "SameParameterValue"})
 public class SqlExpression implements SqlClause {
 
@@ -64,6 +64,12 @@ public class SqlExpression implements SqlClause {
 
     public SqlExpression(SqlParamMapper paramMapper) {
         this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
+    }
+
+    public void clear() {
+
+        expression = "";
+        part = SqlExpressionPartEnum.EMPTY;
     }
 
     public SqlExpression nihil() {

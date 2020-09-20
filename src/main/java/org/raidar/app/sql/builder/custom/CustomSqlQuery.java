@@ -1,16 +1,11 @@
 package org.raidar.app.sql.builder.custom;
 
-import org.raidar.app.sql.api.SqlParam;
+import org.raidar.app.sql.api.SqlParamList;
 import org.raidar.app.sql.builder.SqlBuilder;
-import org.raidar.app.sql.builder.SqlParameter;
 
 import java.io.Serializable;
-import java.util.AbstractMap;
-import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 import static org.raidar.app.sql.SqlConstants.CLAUSE_SEPARATOR;
 
 // Implement QueryWithParams here:
@@ -46,14 +41,11 @@ public class CustomSqlQuery extends SqlBuilder {
     }
 
     public Map<String, Serializable> getParamsMap() {
-
-        return getParams().stream().collect(toMap(SqlParam::getName, SqlParam::getValue));
+        return getParams().getMap();
     }
 
     public void setParamsMap(Map<String, Serializable> map) {
-
-        clearParams();
-        add(map);
+        getParams().setMap(map);
     }
 
     public void add(String sql) {
@@ -63,15 +55,7 @@ public class CustomSqlQuery extends SqlBuilder {
     }
 
     public void add(Map<String, Serializable> map) {
-
-        if (map == null || map.isEmpty())
-            return;
-
-        List<SqlParameter> params = map.entrySet().stream()
-                .map(e -> new SqlParameter(e.getKey(), e.getValue()))
-                .collect(toList());
-
-        bind(params);
+        getParams().addMap(map);
     }
 
     public void add(String sql, Map<String, Serializable> map) {
@@ -85,10 +69,10 @@ public class CustomSqlQuery extends SqlBuilder {
         if (query == null)
             return;
 
-        add(query.getSql(), query.getParameters());
+        add(query.getSql(), query.getParams());
     }
 
-    public void add(String sql, List<SqlParameter> params) {
+    public void add(String sql, SqlParamList params) {
 
         add(sql);
         bind(params);
