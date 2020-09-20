@@ -4,6 +4,7 @@ import org.raidar.app.sql.api.SqlClause;
 import org.raidar.app.sql.api.SqlQuery;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import static org.raidar.app.sql.SqlConstants.*;
 
@@ -19,6 +20,10 @@ public class SqlUtils {
 
     public static boolean isBlank(String s) {
         return s == null || s.trim().length() == 0;
+    }
+
+    public static boolean isEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
     }
 
     public static String enclose(String clause) {

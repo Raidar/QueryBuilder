@@ -2,6 +2,7 @@ package org.raidar.app.sql.builder.custom;
 
 import org.raidar.app.sql.api.SqlParamList;
 import org.raidar.app.sql.builder.SqlBuilder;
+import org.raidar.app.sql.builder.SqlQueryTextBuilder;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -19,14 +20,12 @@ public class CustomSqlQuery extends SqlBuilder {
     public CustomSqlQuery(String sql) {
 
         super();
-
         add(sql);
     }
 
     public CustomSqlQuery(String sql, Map<String, Serializable> map) {
 
         super();
-
         add(sql, map);
     }
 
@@ -83,5 +82,11 @@ public class CustomSqlQuery extends SqlBuilder {
         return "CustomSqlQuery{" +
                 super.toString() +
                 '}';
+    }
+
+    public String toParamText() {
+
+        SqlQueryTextBuilder builder = new SqlQueryTextBuilder();
+        return builder.toText(this);
     }
 }

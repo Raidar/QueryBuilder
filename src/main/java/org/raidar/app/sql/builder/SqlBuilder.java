@@ -1,22 +1,15 @@
 package org.raidar.app.sql.builder;
 
 import org.raidar.app.sql.SqlUtils;
-import org.raidar.app.sql.api.SqlParam;
 import org.raidar.app.sql.api.SqlParamList;
-import org.raidar.app.sql.api.SqlParamMapper;
 import org.raidar.app.sql.api.SqlQuery;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Objects;
-
-import static org.raidar.app.sql.SqlConstants.BIND_PREFIX;
 
 /** Построитель SQL-запроса. */
 @SuppressWarnings({"unused", "SameParameterValue"})
 public class SqlBuilder implements SqlQuery {
-
-    private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
 
     /** Сборщик SQL-запроса. */
     private final StringBuilder builder = new StringBuilder();
@@ -24,15 +17,8 @@ public class SqlBuilder implements SqlQuery {
     /** Список bind-параметров. */
     private final SqlParameterList params = new SqlParameterList();
 
-    /** Подстановщик значений bind-параметров для некоторых запросов. */
-    private final SqlParamMapper paramMapper;
-
     public SqlBuilder() {
-        this(DEFAULT_PARAM_MAPPER);
-    }
-
-    public SqlBuilder(SqlParamMapper paramMapper) {
-        this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
+        // Nothing to do.
     }
 
     public void clear() {
@@ -77,24 +63,6 @@ public class SqlBuilder implements SqlQuery {
 
         this.params.add(params);
         return this;
-    }
-
-    public String toParamText() {
-
-        if (isEmpty())
-            return null;
-
-        String result = getText();
-
-        if (params.isEmpty())
-            return result;
-
-        // to-do: Переписать для ускорения: проходить sql по ":(bind)" и собирать result.
-        for (SqlParam param : params.get()) {
-            result = result.replace(BIND_PREFIX + param.getName(), paramMapper.toString(param));
-        }
-
-        return result;
     }
 
     @Override
