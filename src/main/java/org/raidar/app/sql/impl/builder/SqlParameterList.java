@@ -4,10 +4,7 @@ import org.raidar.app.sql.api.builder.SqlParam;
 import org.raidar.app.sql.api.builder.SqlParamList;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -31,8 +28,19 @@ public class SqlParameterList implements SqlParamList {
     }
 
     @Override
-    public Collection<? extends SqlParam> get() {
+    public List<? extends SqlParam> get() {
         return params;
+    }
+
+    @Override
+    public SqlParam get(String name) {
+        return params.stream().filter(param -> name.equals(param.getName())).findFirst().orElse(null);
+    }
+
+    @Override
+    public Serializable getValue(String name) {
+        SqlParam param = get(name);
+        return (param != null) ? param.getValue() : null;
     }
 
     @Override
@@ -95,5 +103,26 @@ public class SqlParameterList implements SqlParamList {
                 .map(e -> new SqlParameter(e.getKey(), e.getValue()))
                 .collect(toList());
         add(params);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SqlParameterList that = (SqlParameterList)o;
+        return Objects.equals(params, that.params);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(params);
+    }
+
+    @Override
+    public String toString() {
+        return "SqlParameterList{" +
+                "params=" + params.toString() +
+                '}';
     }
 }
