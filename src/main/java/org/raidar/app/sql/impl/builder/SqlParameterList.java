@@ -22,6 +22,14 @@ public class SqlParameterList implements SqlParamList {
         // Nothing to do.
     }
 
+    public SqlParameterList(SqlParamList params) {
+
+        if (params != null && !params.isEmpty()) {
+            List<SqlParameter> list = params.get().stream().map(SqlParameter::new).collect(toList());
+            add(list);
+        }
+    }
+
     @Override
     public Collection<? extends SqlParam> get() {
         return params;
