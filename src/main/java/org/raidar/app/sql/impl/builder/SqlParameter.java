@@ -22,6 +22,15 @@ public class SqlParameter implements SqlParam {
         this.value = value;
     }
 
+    public SqlParameter(SqlParam param) {
+
+        if (param == null)
+            throw new IllegalArgumentException("The parameter is empty.");
+
+        this.name = param.getName();
+        this.value = param.getValue();
+    }
+
     @Override
     public String getName() {
         return name;
