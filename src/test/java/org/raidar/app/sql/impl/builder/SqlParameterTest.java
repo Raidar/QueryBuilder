@@ -7,28 +7,55 @@ import org.raidar.app.sql.SqlBaseTest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
 public class SqlParameterTest extends SqlBaseTest {
 
+    Map<String, List<Serializable>> testConstructorArgsMap = createTestConstructorArgsMap();
+
+    private static Map<String, List<Serializable>> createTestConstructorArgsMap() {
+
+        Map<String, List<Serializable>> result = new HashMap<>(7);
+        result.put("str", List.of("string value", "other value"));
+        result.put("int", List.of(1, 10));
+        result.put("long", List.of(1L, 10L));
+        result.put("bool", List.of(true, false));
+        result.put("bigint", List.of(BigInteger.ONE, BigInteger.TEN));
+        result.put("bigdec", List.of(BigDecimal.ONE, BigDecimal.TEN));
+
+        return result;
+    }
+
     @Test
     public void testClass() {
 
-        testClass("null", null, "null");
-        testClass("str", "string value", "other value");
-        testClass("int", 1, 2);
-        testClass("long", 1L, 2L);
-        testClass("bool", true, false);
-        testClass("bigint", BigInteger.ONE, BigInteger.TWO);
-        testClass("bigdec", BigDecimal.ONE, BigDecimal.TEN);
+        testConstructorArgsMap.forEach(this::testClass);
     }
 
     @Test
     public void testClassFailed() {
 
         testClassFailed(null, "null", IllegalArgumentException.class);
-        testClassFailed(null, 1, IllegalArgumentException.class);
+        testClassFailed(null, 0, IllegalArgumentException.class);
+        testClassFailed(null, BigInteger.ZERO, IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testCloneFailed() {
+
+        try {
+            new SqlParameter(null);
+            fail(getFailedMessage(IllegalArgumentException.class));
+
+        } catch (RuntimeException e) {
+
+            assertEquals(IllegalArgumentException.class, e.getClass());
+            assertNotNull(getExceptionMessage(e));
+        }
     }
 
     @Test
@@ -36,6 +63,12 @@ public class SqlParameterTest extends SqlBaseTest {
 
         SqlParameter current = new SqlParameter("text", "text");
         assertSpecialEquals(current);
+    }
+
+    private void testClass(String name, List<Serializable> list) {
+
+        testClass(name, null, list.get(0));
+        testClass(name, list.get(0), list.get(1));
     }
 
     private void testClass(String name, Serializable value, Serializable other) {
@@ -47,6 +80,9 @@ public class SqlParameterTest extends SqlBaseTest {
 
         SqlParameter same = new SqlParameter(name, value);
         assertObjects(Assert::assertEquals, current, same);
+
+        SqlParameter cloned = new SqlParameter(current);
+        assertObjects(Assert::assertEquals, current, cloned);
 
         SqlParameter copied = copy(current);
         assertObjects(Assert::assertEquals, current, copied);
