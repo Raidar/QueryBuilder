@@ -24,8 +24,8 @@ public class SqlParameterTest extends SqlBaseTest {
         result.put("int", List.of(1, 10));
         result.put("long", List.of(1L, 10L));
         result.put("bool", List.of(true, false));
-        result.put("bigint", List.of(BigInteger.ONE, BigInteger.TEN));
-        result.put("bigdec", List.of(BigDecimal.ONE, BigDecimal.TEN));
+        result.put("BigInt", List.of(BigInteger.ONE, BigInteger.TEN));
+        result.put("BigDec", List.of(BigDecimal.ONE, BigDecimal.TEN));
 
         return result;
     }
@@ -65,6 +65,39 @@ public class SqlParameterTest extends SqlBaseTest {
         assertSpecialEquals(current);
     }
 
+    @Test
+    public void testCompareTo() {
+
+        testConstructorArgsMap.forEach(this::testCompareTo);
+    }
+
+    private void testCompareTo(String name, List<Serializable> list) {
+
+        Serializable value = list.get(0);
+        SqlParameter current = new SqlParameter(name, value);
+
+        SqlParameter similar = new SqlParameter(name, value);
+        assertEquals(0, current.compareTo(similar));
+
+        SqlParameter previous = new SqlParameter("A" + name.substring(1), value);
+        assertTrue(current.compareTo(previous) > 0);
+
+        previous = new SqlParameter("z" + name.substring(1), value);
+        assertTrue(current.compareTo(previous) < 0);
+
+        previous = new SqlParameter("A " + name, value);
+        assertTrue(current.compareTo(previous) > 0);
+
+        SqlParameter following = new SqlParameter(name.substring(0, name.length() - 1) + "a", value);
+        assertTrue(current.compareTo(following) > 0);
+
+        following = new SqlParameter(name.substring(0, name.length() - 1) + "z", value);
+        assertTrue(current.compareTo(following) < 0);
+
+        following = new SqlParameter(name + " z", value);
+        assertTrue(current.compareTo(following) < 0);
+    }
+
     private void testClass(String name, List<Serializable> list) {
 
         testClass(name, null, list.get(0));
@@ -77,9 +110,11 @@ public class SqlParameterTest extends SqlBaseTest {
         assertNotNull(current);
         assertEquals(name, current.getName());
         assertEquals(value, current.getValue());
+        assertTrue(current.isNameEquals(name));
 
         SqlParameter same = new SqlParameter(name, value);
         assertObjects(Assert::assertEquals, current, same);
+        assertTrue(same.isNameEquals(current));
 
         SqlParameter cloned = new SqlParameter(current);
         assertObjects(Assert::assertEquals, current, cloned);

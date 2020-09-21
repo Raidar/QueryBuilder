@@ -42,6 +42,16 @@ public class SqlParameter implements SqlParam {
     }
 
     @Override
+    public boolean isNameEquals(String name) {
+        return this.name.equals(name);
+    }
+
+    @Override
+    public boolean isNameEquals(SqlParam param) {
+        return isNameEquals(param.getName());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -62,5 +72,10 @@ public class SqlParameter implements SqlParam {
                 "name='" + name + '\'' +
                 (value != null ? ", value=" + value : "") +
                 '}';
+    }
+
+    @Override
+    public int compareTo(SqlParam o) {
+        return name.compareTo(o.getName());
     }
 }
