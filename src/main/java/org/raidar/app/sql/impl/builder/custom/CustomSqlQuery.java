@@ -2,7 +2,7 @@ package org.raidar.app.sql.impl.builder.custom;
 
 import org.raidar.app.sql.api.builder.SqlParamList;
 import org.raidar.app.sql.impl.builder.SqlBuilder;
-import org.raidar.app.sql.impl.provider.SqlQueryTextBuilder;
+import org.raidar.app.sql.impl.provider.SqlQueryParameterSubstitutor;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -86,7 +86,7 @@ public class CustomSqlQuery extends SqlBuilder {
 
     public String toParamText() {
 
-        SqlQueryTextBuilder builder = new SqlQueryTextBuilder();
-        return builder.toText(this);
+        SqlQueryParameterSubstitutor builder = new SqlQueryParameterSubstitutor();
+        return builder.substitute(this);
     }
 }
