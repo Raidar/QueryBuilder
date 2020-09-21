@@ -52,6 +52,7 @@ public class SqlParameterList implements SqlParamList {
 
     @Override
     public Serializable getValue(String name) {
+
         SqlParam param = get(name);
         return (param != null) ? param.getValue() : null;
     }
@@ -90,7 +91,8 @@ public class SqlParameterList implements SqlParamList {
 
     @Override
     public Collection<? extends SqlParam> get() {
-        return params.values();
+
+        return new ArrayList<>(params.values());
     }
 
     @Override
@@ -111,6 +113,7 @@ public class SqlParameterList implements SqlParamList {
 
     @Override
     public Map<String, Serializable> getMap() {
+
         return this.params.values().stream().collect(toMap(SqlParam::getName, SqlParam::getValue));
     }
 
@@ -165,6 +168,7 @@ public class SqlParameterList implements SqlParamList {
 
     @Override
     public void add(Stream<? extends SqlParam> stream) {
+
         this.params.putAll(stream.collect(toMap(SqlParam::getName, identity())));
     }
 }
