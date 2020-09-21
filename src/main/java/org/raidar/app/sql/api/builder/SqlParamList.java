@@ -4,11 +4,16 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /** Список SQL-параметров для привязки значения. */
-public interface SqlParamList extends Serializable {
+public interface SqlParamList extends Serializable, Iterable<SqlParam> {
 
-    List<? extends SqlParam> get();
+    int size();
+
+    boolean isEmpty();
+
+    boolean contains(String name);
 
     SqlParam get(String name);
 
@@ -16,13 +21,15 @@ public interface SqlParamList extends Serializable {
 
     void clear();
 
-    boolean isEmpty();
-
     void add(SqlParam param);
 
     void add(String name, Serializable value);
 
     void add(SqlParamList params);
+
+    Collection<? extends SqlParam> get();
+
+    void set(Collection<? extends SqlParam> params);
 
     void add(Collection<? extends SqlParam> params);
 
@@ -31,4 +38,8 @@ public interface SqlParamList extends Serializable {
     void setMap(Map<String, Serializable> map);
 
     void addMap(Map<String, Serializable> map);
+
+    Stream<SqlParam> stream();
+
+    void add(Stream<? extends SqlParam> stream);
 }

@@ -2,18 +2,21 @@ package org.raidar.app.sql.impl.builder;
 
 import org.raidar.app.sql.api.builder.SqlParam;
 import org.raidar.app.sql.api.builder.SqlParamList;
+import org.raidar.app.sql.impl.SqlUtils;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 /** Список параметров SQL-запроса. */
 public class SqlParameterList implements SqlParamList {
 
     /** Список bind-параметров. */
-    private final List<SqlParam> params = new ArrayList<>();
+    private final Map<String, SqlParam> params = new HashMap<>();
 
     public SqlParameterList() {
         // Nothing to do.
@@ -22,19 +25,29 @@ public class SqlParameterList implements SqlParamList {
     public SqlParameterList(SqlParamList params) {
 
         if (params != null && !params.isEmpty()) {
-            List<SqlParameter> list = params.get().stream().map(SqlParameter::new).collect(toList());
+            List<SqlParameter> list = params.stream().map(SqlParameter::new).collect(toList());
             add(list);
         }
     }
 
     @Override
-    public List<? extends SqlParam> get() {
-        return params;
+    public int size() {
+        return params.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return params.isEmpty();
+    }
+
+    @Override
+    public boolean contains(String name) {
+        return params.containsKey(name);
     }
 
     @Override
     public SqlParam get(String name) {
-        return params.stream().filter(param -> name.equals(param.getName())).findFirst().orElse(null);
+        return params.get(name);
     }
 
     @Override
@@ -49,18 +62,21 @@ public class SqlParameterList implements SqlParamList {
     }
 
     @Override
-    public boolean isEmpty() {
-        return params.isEmpty();
-    }
-
-    @Override
     public void add(SqlParam param) {
-        params.add(param);
+
+        if (param == null)
+            throw new IllegalArgumentException("The parameter is empty.");
+
+        params.put(param.getName(), param);
     }
 
     @Override
     public void add(String name, Serializable value) {
-        params.add(new SqlParameter(name, value));
+
+        if (SqlUtils.isBlank(name))
+            throw new IllegalArgumentException("The parameter name is empty.");
+
+        params.put(name, new SqlParameter(name, value));
     }
 
     @Override
@@ -69,7 +85,19 @@ public class SqlParameterList implements SqlParamList {
         if (params == null || params.isEmpty())
             return;
 
-        this.params.addAll(params.get());
+        add(params.stream());
+    }
+
+    @Override
+    public Collection<? extends SqlParam> get() {
+        return params.values();
+    }
+
+    @Override
+    public void set(Collection<? extends SqlParam> params) {
+
+        clear();
+        add(params);
     }
 
     @Override
@@ -78,12 +106,12 @@ public class SqlParameterList implements SqlParamList {
         if (params == null || params.isEmpty())
             return;
 
-        this.params.addAll(params);
+        add(params.stream());
     }
 
     @Override
     public Map<String, Serializable> getMap() {
-        return this.params.stream().collect(Collectors.toMap(SqlParam::getName, SqlParam::getValue));
+        return this.params.values().stream().collect(toMap(SqlParam::getName, SqlParam::getValue));
     }
 
     @Override
@@ -99,10 +127,9 @@ public class SqlParameterList implements SqlParamList {
         if (map == null || map.isEmpty())
             return;
 
-        List<SqlParam> params = map.entrySet().stream()
-                .map(e -> new SqlParameter(e.getKey(), e.getValue()))
-                .collect(toList());
-        add(params);
+        Stream<SqlParam> stream = map.entrySet().stream()
+                .map(e -> new SqlParameter(e.getKey(), e.getValue()));
+        add(stream);
     }
 
     @Override
@@ -124,5 +151,20 @@ public class SqlParameterList implements SqlParamList {
         return "SqlParameterList{" +
                 "params=" + params.toString() +
                 '}';
+    }
+
+    @Override
+    public Iterator<SqlParam> iterator() {
+        return params.values().iterator();
+    }
+
+    @Override
+    public Stream<SqlParam> stream() {
+        return params.values().stream();
+    }
+
+    @Override
+    public void add(Stream<? extends SqlParam> stream) {
+        this.params.putAll(stream.collect(toMap(SqlParam::getName, identity())));
     }
 }
