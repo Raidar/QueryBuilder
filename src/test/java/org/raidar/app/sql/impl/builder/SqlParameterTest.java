@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class SqlParameterTest extends SqlBaseTest {
 
-    Map<String, List<Serializable>> testConstructorArgsMap = createTestConstructorArgsMap();
+    Map<String, List<Serializable>> constructorArgsMap = createTestConstructorArgsMap();
 
     private static Map<String, List<Serializable>> createTestConstructorArgsMap() {
 
@@ -33,7 +33,7 @@ public class SqlParameterTest extends SqlBaseTest {
     @Test
     public void testClass() {
 
-        testConstructorArgsMap.forEach(this::testClass);
+        constructorArgsMap.forEach(this::testClass);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class SqlParameterTest extends SqlBaseTest {
     @Test
     public void testCompareTo() {
 
-        testConstructorArgsMap.forEach(this::testCompareTo);
+        constructorArgsMap.forEach(this::testCompareTo);
     }
 
     private void testCompareTo(String name, List<Serializable> list) {
