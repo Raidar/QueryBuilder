@@ -22,8 +22,8 @@ public class SqlUtils {
         return s == null || s.trim().length() == 0;
     }
 
-    public static boolean isEmpty(Collection<?> collection) {
-        return collection == null || collection.isEmpty();
+    public static boolean isEmpty(Collection<?> o) {
+        return o == null || o.isEmpty();
     }
 
     public static String enclose(String clause) {
