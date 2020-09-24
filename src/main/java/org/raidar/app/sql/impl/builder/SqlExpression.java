@@ -4,8 +4,9 @@ import org.raidar.app.sql.api.builder.SqlClause;
 import org.raidar.app.sql.api.builder.SqlQuery;
 import org.raidar.app.sql.api.model.SqlExpressionPartEnum;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
-import org.raidar.app.sql.impl.SqlUtils;
 import org.raidar.app.sql.impl.provider.SqlParameterMapper;
+import org.raidar.app.sql.impl.utils.CommonUtils;
+import org.raidar.app.sql.impl.utils.SqlUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import java.util.Objects;
 import static org.raidar.app.sql.impl.SqlConstants.*;
 
 /** SQL-выражение - составляющая часть условия или вывода SQL-запроса. */
-@SuppressWarnings({"unused", "SameParameterValue"})
+@SuppressWarnings("SameParameterValue")
 public class SqlExpression implements SqlClause {
 
     private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
@@ -79,7 +80,7 @@ public class SqlExpression implements SqlClause {
 
     public SqlExpression field(String name) {
 
-        if (SqlUtils.isBlank(name))
+        if (CommonUtils.isBlank(name))
             throw new IllegalArgumentException("A field name is empty.");
 
         return literal(name);
@@ -87,7 +88,7 @@ public class SqlExpression implements SqlClause {
 
     public SqlExpression param(String name) {
 
-        if (SqlUtils.isBlank(name))
+        if (CommonUtils.isBlank(name))
             throw new IllegalArgumentException("A parameter name is empty.");
 
         return literal(BIND_PREFIX + name);
@@ -200,7 +201,7 @@ public class SqlExpression implements SqlClause {
     /** Унарный префиксный оператор. */
     protected SqlExpression prefixed(String operator) {
 
-        if (SqlUtils.isBlank(operator))
+        if (CommonUtils.isBlank(operator))
             throw new IllegalArgumentException("A prefixed operator is empty.");
 
         return with(operator + this.expression);
@@ -209,7 +210,7 @@ public class SqlExpression implements SqlClause {
     /** Унарный суффиксный оператор. */
     protected SqlExpression postfixed(String operator) {
 
-        if (SqlUtils.isBlank(operator))
+        if (CommonUtils.isBlank(operator))
             throw new IllegalArgumentException("A postfixed operator is empty.");
 
         return with(this.expression + operator);
@@ -218,7 +219,7 @@ public class SqlExpression implements SqlClause {
     /** Бинарный оператор. */
     protected SqlExpression binary(String operator, SqlClause operand) {
 
-        if (SqlUtils.isBlank(operator))
+        if (CommonUtils.isBlank(operator))
             throw new IllegalArgumentException("A binary operator is empty.");
 
         if (SqlUtils.isEmpty(operand))
@@ -231,10 +232,10 @@ public class SqlExpression implements SqlClause {
     protected SqlExpression ternary(String operator1, SqlClause operand1,
                                     String operator2, SqlClause operand2) {
 
-        if (SqlUtils.isBlank(operator1))
+        if (CommonUtils.isBlank(operator1))
             throw new IllegalArgumentException("A ternary first operator is empty.");
 
-        if (SqlUtils.isBlank(operator2))
+        if (CommonUtils.isBlank(operator2))
             throw new IllegalArgumentException("A ternary second operator is empty.");
 
         if (SqlUtils.isEmpty(operand1))
@@ -250,10 +251,10 @@ public class SqlExpression implements SqlClause {
     protected SqlExpression ranged(String operator, SqlClause left,
                                    String separator, SqlClause right) {
 
-        if (SqlUtils.isBlank(operator))
+        if (CommonUtils.isBlank(operator))
             throw new IllegalArgumentException("A ranged operator is empty.");
 
-        if (SqlUtils.isBlank(separator))
+        if (CommonUtils.isBlank(separator))
             throw new IllegalArgumentException("A ranged separator is empty.");
 
         if (SqlUtils.isEmpty(left))
@@ -271,7 +272,7 @@ public class SqlExpression implements SqlClause {
         if (!SqlExpressionPartEnum.literalAllowed(part))
             throw new IllegalArgumentException("A literal is not allowed.");
 
-        if (SqlUtils.isBlank(argument))
+        if (CommonUtils.isBlank(argument))
             throw new IllegalArgumentException("A literal argument is empty.");
 
         this.expression = argument;
@@ -287,7 +288,7 @@ public class SqlExpression implements SqlClause {
         if (!SqlExpressionPartEnum.expressionAllowed(part))
             throw new IllegalArgumentException("An expression is not allowed.");
 
-        if (SqlUtils.isBlank(expression))
+        if (CommonUtils.isBlank(expression))
             throw new IllegalArgumentException("An expression argument is empty.");
 
         this.expression = expression;
@@ -320,7 +321,7 @@ public class SqlExpression implements SqlClause {
 
     @Override
     public boolean isEmpty() {
-        return SqlUtils.isEmpty(expression);
+        return CommonUtils.isEmpty(expression);
     }
 
     @Override

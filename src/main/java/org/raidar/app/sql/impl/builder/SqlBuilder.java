@@ -2,13 +2,13 @@ package org.raidar.app.sql.impl.builder;
 
 import org.raidar.app.sql.api.builder.SqlParamList;
 import org.raidar.app.sql.api.builder.SqlQuery;
-import org.raidar.app.sql.impl.SqlUtils;
+import org.raidar.app.sql.impl.utils.CommonUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /** Построитель SQL-запроса. */
-@SuppressWarnings({"unused", "SameParameterValue"})
+@SuppressWarnings("SameParameterValue")
 public class SqlBuilder implements SqlQuery {
 
     /** Сборщик SQL-запроса. */
@@ -37,7 +37,7 @@ public class SqlBuilder implements SqlQuery {
 
     protected SqlBuilder append(String clause) {
 
-        if (!SqlUtils.isEmpty(clause)) {
+        if (!CommonUtils.isEmpty(clause)) {
             builder.append(clause);
         }
 
@@ -46,7 +46,7 @@ public class SqlBuilder implements SqlQuery {
 
     protected SqlBuilder prepend(String clause) {
 
-        if (!SqlUtils.isEmpty(clause)) {
+        if (!CommonUtils.isEmpty(clause)) {
             builder.insert(0, clause);
         }
 

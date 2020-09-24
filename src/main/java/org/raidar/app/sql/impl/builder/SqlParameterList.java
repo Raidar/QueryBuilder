@@ -2,7 +2,7 @@ package org.raidar.app.sql.impl.builder;
 
 import org.raidar.app.sql.api.builder.SqlParam;
 import org.raidar.app.sql.api.builder.SqlParamList;
-import org.raidar.app.sql.impl.SqlUtils;
+import org.raidar.app.sql.impl.utils.CommonUtils;
 
 import java.io.Serializable;
 import java.util.*;
@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static org.raidar.app.sql.impl.utils.CommonUtils.isBlank;
 
 /** Список параметров SQL-запроса. */
 public class SqlParameterList implements SqlParamList {
@@ -74,7 +75,7 @@ public class SqlParameterList implements SqlParamList {
     @Override
     public void add(String name, Serializable value) {
 
-        if (SqlUtils.isBlank(name))
+        if (isBlank(name))
             throw new IllegalArgumentException("The parameter name is empty.");
 
         params.put(name, new SqlParameter(name, value));
@@ -105,7 +106,7 @@ public class SqlParameterList implements SqlParamList {
     @Override
     public void add(Collection<? extends SqlParam> params) {
 
-        if (params == null || params.isEmpty())
+        if (CommonUtils.isEmpty(params))
             return;
 
         add(params.stream());
@@ -127,7 +128,7 @@ public class SqlParameterList implements SqlParamList {
     @Override
     public void addMap(Map<String, Serializable> map) {
 
-        if (map == null || map.isEmpty())
+        if (CommonUtils.isEmpty(map))
             return;
 
         Stream<SqlParam> stream = map.entrySet().stream()

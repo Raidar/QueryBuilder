@@ -1,7 +1,8 @@
 package org.raidar.app.sql.impl.builder;
 
 import org.raidar.app.sql.api.builder.SqlClause;
-import org.raidar.app.sql.impl.SqlUtils;
+import org.raidar.app.sql.impl.utils.CommonUtils;
+import org.raidar.app.sql.impl.utils.SqlUtils;
 
 /** Условие SQL-оператора. */
 public class SqlCondition extends SqlBuilder {
@@ -26,7 +27,7 @@ public class SqlCondition extends SqlBuilder {
         if (SqlUtils.isEmpty(clause))
             throw new IllegalArgumentException("The clause is empty.");
 
-        if (!isEmpty() || !SqlUtils.isEmpty(operator)) {
+        if (!isEmpty() || !CommonUtils.isEmpty(operator)) {
             append(operator);
         }
 

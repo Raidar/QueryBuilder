@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import static org.raidar.app.sql.impl.SqlConstants.NULL_VALUE;
-import static org.raidar.app.sql.impl.SqlUtils.*;
+import static org.raidar.app.sql.impl.utils.SqlUtils.*;
 
 public class SqlParameterMapper implements SqlParamMapper {
 

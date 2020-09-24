@@ -1,17 +1,19 @@
-package org.raidar.app.sql.impl;
+package org.raidar.app.sql.impl.utils;
 
 import org.junit.Test;
 import org.raidar.app.sql.SqlBaseTest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static org.junit.Assert.*;
-import static org.raidar.app.sql.impl.SqlUtils.isBlank;
-import static org.raidar.app.sql.impl.SqlUtils.isEmpty;
+import static org.raidar.app.sql.impl.utils.CommonUtils.*;
 
-public class SqlUtilsTest extends SqlBaseTest {
+public class CommonUtilsTest extends SqlBaseTest {
 
     @Test
     public void testIsEmptyString() {
@@ -49,5 +51,33 @@ public class SqlUtilsTest extends SqlBaseTest {
 
         list.clear();
         assertTrue(isEmpty(list));
+    }
+
+    @Test
+    public void testIsEmptyMap() {
+
+        assertTrue(isEmpty(emptyMap()));
+        assertTrue(isEmpty(new HashMap<>()));
+
+        Map<String, String> map = new HashMap<>();
+        map.put("", null);
+        map.put(" ", "---");
+        map.put("a", "letter");
+        map.put("1", "digit");
+        assertFalse(isEmpty(map));
+
+        map = new HashMap<>(map);
+        assertFalse(isEmpty(map));
+
+        map.clear();
+        assertTrue(isEmpty(map));
+    }
+
+    @Test
+    public void testEncloseString() {
+
+        assertEquals("<>", enclose("", "<", ">"));
+        assertEquals("<a>", enclose("a", "<", ">"));
+        assertEquals("<1>", enclose("1", "<", ">"));
     }
 }

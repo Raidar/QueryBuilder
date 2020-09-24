@@ -1,10 +1,11 @@
 package org.raidar.app.sql.impl.builder;
 
 import org.raidar.app.sql.api.builder.SqlParam;
-import org.raidar.app.sql.impl.SqlUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import static org.raidar.app.sql.impl.utils.CommonUtils.isBlank;
 
 /** Параметр SQL-запроса. */
 public class SqlParameter implements SqlParam {
@@ -15,7 +16,7 @@ public class SqlParameter implements SqlParam {
 
     public SqlParameter(String name, Serializable value) {
 
-        if (SqlUtils.isBlank(name))
+        if (isBlank(name))
             throw new IllegalArgumentException("The parameter name is empty.");
 
         this.name = name;

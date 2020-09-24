@@ -1,13 +1,14 @@
 package org.raidar.app.sql.impl.builder;
 
 import org.raidar.app.sql.api.model.SqlSelectPartEnum;
-import org.raidar.app.sql.impl.SqlUtils;
+import org.raidar.app.sql.impl.utils.CommonUtils;
+import org.raidar.app.sql.impl.utils.SqlUtils;
 
 import static org.raidar.app.sql.impl.SqlConstants.*;
-import static org.raidar.app.sql.impl.SqlUtils.isBlank;
+import static org.raidar.app.sql.impl.utils.CommonUtils.isBlank;
 
 /** SQL-оператор SELECT. */
-@SuppressWarnings({"unused", "SameParameterValue"})
+@SuppressWarnings("SameParameterValue")
 public class SqlSelect extends SqlOperator {
 
     private static final String ALIAS_OPERATOR = " AS ";
@@ -35,7 +36,7 @@ public class SqlSelect extends SqlOperator {
 
         append(name);
 
-        if (!SqlUtils.isEmpty(columns)) {
+        if (!CommonUtils.isEmpty(columns)) {
             append(SqlUtils.enclose(columns));
         }
 
@@ -117,17 +118,17 @@ public class SqlSelect extends SqlOperator {
             append(LIST_SEPARATOR);
         }
 
-        if (!SqlUtils.isEmpty(schemaName)) {
+        if (!CommonUtils.isEmpty(schemaName)) {
             append(schemaName).append(NAME_SEPARATOR);
         }
 
         append(tableName);
 
-        if (!SqlUtils.isEmpty(alias)) {
+        if (!CommonUtils.isEmpty(alias)) {
             append(ALIAS_OPERATOR).append(alias);
         }
 
-        if (!SqlUtils.isEmpty(columnAliases)) {
+        if (!CommonUtils.isEmpty(columnAliases)) {
             append(SqlUtils.enclose(columnAliases));
         }
 

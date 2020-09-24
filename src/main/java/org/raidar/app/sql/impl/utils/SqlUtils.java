@@ -1,10 +1,9 @@
-package org.raidar.app.sql.impl;
+package org.raidar.app.sql.impl.utils;
 
 import org.raidar.app.sql.api.builder.SqlClause;
 import org.raidar.app.sql.api.builder.SqlQuery;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 import static org.raidar.app.sql.impl.SqlConstants.*;
 
@@ -14,38 +13,20 @@ public class SqlUtils {
         // Nothing to do.
     }
 
-    public static boolean isEmpty(String s) {
-        return s == null || s.length() == 0;
-    }
-
-    public static boolean isBlank(String s) {
-        return s == null || s.trim().length() == 0;
-    }
-
-    public static boolean isEmpty(Collection<?> o) {
-        return o == null || o.isEmpty();
-    }
-
     public static String enclose(String clause) {
-        return enclose(clause, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
+        return CommonUtils.enclose(clause, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
     }
 
     public static String enclose(SqlClause clause) {
-        return enclose(clause.getText(), NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
-    }
-
-    private static String enclose(String sql, String prefix, String suffix) {
-        return prefix + sql + suffix;
+        return CommonUtils.enclose(clause.getText(), NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
     }
 
     public static String escapeName(String name) {
-
-        return isEmpty(name) ? name : "\"" + name.replace("\"", "") + "\"";
+        return CommonUtils.isEmpty(name) ? name : "\"" + name.replace("\"", "") + "\"";
     }
 
     public static String escapeValue(String value) {
-
-        return isEmpty(value) ? value : "'" + value.replace("'", "''") + "'";
+        return CommonUtils.isEmpty(value) ? value : "'" + value.replace("'", "''") + "'";
     }
 
     public static boolean isEmpty(SqlQuery query) {
@@ -74,12 +55,10 @@ public class SqlUtils {
     }
 
     public static String toTimestampWithTimeZone(String value) {
-
         return (value != null) ? toTimestamp(value) + CAST_OPERATOR + TIMESTAMP_WITH_TIME_ZONE : null;
     }
 
     public static String toTimestampWithoutTimeZone(String value) {
-
         return (value != null) ? toTimestamp(value) + CAST_OPERATOR + TIMESTAMP_WITHOUT_TIME_ZONE : null;
     }
 }
