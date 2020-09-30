@@ -8,7 +8,6 @@ import org.raidar.app.sql.api.builder.SqlParam;
 import java.io.Serializable;
 import java.util.*;
 
-import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -48,7 +47,7 @@ public class SqlParameterListTest extends SqlBaseTest {
 
         SqlParameterList current = new SqlParameterList();
         current.add(SINGLE_PARAM_NAME, SINGLE_PARAM_VALUE);
-        assertSize(current, 1);
+        testSize(current, 1);
         assertNull(current.getValue("null"));
         assertTrue(current.contains(SINGLE_PARAM_NAME));
         assertEquals(SINGLE_PARAM_VALUE, current.getValue(SINGLE_PARAM_NAME));
@@ -156,13 +155,13 @@ public class SqlParameterListTest extends SqlBaseTest {
 
         list = List.of(createSingleParam());
         current.add(list);
-        assertSize(current, 1);
+        testSize(current, 1);
         assertTrue(current.contains(SINGLE_PARAM_NAME));
         assertEquals(list, current.get());
 
         list = createDoubleParams();
         current.set(list);
-        assertSize(current, 2);
+        testSize(current, 2);
         assertEquals(list, current.get());
     }
 
@@ -182,7 +181,7 @@ public class SqlParameterListTest extends SqlBaseTest {
         map.put(SINGLE_PARAM_NAME, SINGLE_PARAM_VALUE);
 
         current.addMap(map);
-        assertSize(current, 1);
+        testSize(current, 1);
         assertTrue(current.contains(SINGLE_PARAM_NAME));
         assertEquals(list, current.get());
         assertEquals(map, current.getMap());
@@ -192,7 +191,7 @@ public class SqlParameterListTest extends SqlBaseTest {
         list.forEach(item -> map.put(item.getName(), item.getValue()));
 
         current.setMap(map);
-        assertSize(current, 2);
+        testSize(current, 2);
         assertEquals(list, current.get());
         assertEquals(map, current.getMap());
     }
@@ -210,7 +209,7 @@ public class SqlParameterListTest extends SqlBaseTest {
         List<SqlParam> list = createDoubleParams();
 
         SqlParameterList current = createDoubleParamList();
-        current.forEach(actual -> assertContains(list, actual));
+        current.forEach(actual -> testContains(list, actual));
     }
 
     @Test
@@ -219,7 +218,7 @@ public class SqlParameterListTest extends SqlBaseTest {
         List<SqlParam> list = createDoubleParams();
 
         SqlParameterList current = createDoubleParamList();
-        current.stream().forEach(actual -> assertContains(list, actual));
+        current.stream().forEach(actual -> testContains(list, actual));
     }
 
     private SqlParameter createSingleParam() {
@@ -259,13 +258,13 @@ public class SqlParameterListTest extends SqlBaseTest {
         assertEquals(EMPTY_PARAMETER_LIST, current);
     }
 
-    private void assertSize(SqlParameterList current, int size) {
+    private void testSize(SqlParameterList current, int size) {
 
         assertNotNull(current.get());
         assertEquals(size, current.size());
     }
 
-    private void assertContains(List<SqlParam> list, SqlParam actual) {
+    private void testContains(List<SqlParam> list, SqlParam actual) {
 
         assertNotNull(actual);
 
