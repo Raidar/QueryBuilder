@@ -3,13 +3,28 @@ package org.raidar.app.sql;
 import org.junit.Assert;
 
 import java.math.BigInteger;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class SqlBaseTest {
 
-    public static void assertObjects(BiConsumer<Object, Object> doAssert, Object current, Object actual) {
+    /** Check list for empty. */
+    public static <T> void assertEmpty(List<T> list) {
+        assertEquals(Collections.<T>emptyList(), list);
+    }
+
+    /** Check map for empty. */
+    public static <K, V> void assertEmpty(Map<K, V> map) {
+        assertEquals(Collections.<K, V>emptyMap(), map);
+    }
+
+    /** Check objects using `equals`, `hashCode`, and `toString`. */
+    public static <T> void assertObjects(BiConsumer<Object, Object> doAssert, T current, T actual) {
 
         doAssert.accept(current, actual);
         
@@ -20,6 +35,7 @@ public class SqlBaseTest {
         }
     }
 
+    /** Check objects by special branches of `equals`. */
     public static void assertSpecialEquals(Object current) {
 
         assertNotNull(current);
