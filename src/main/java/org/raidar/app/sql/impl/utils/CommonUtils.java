@@ -17,11 +17,11 @@ public class CommonUtils {
         return s == null || s.trim().length() == 0;
     }
 
-    public static boolean isEmpty(Collection<?> o) {
+    public static <T> boolean isEmpty(Collection<T> o) {
         return o == null || o.isEmpty();
     }
 
-    public static boolean isEmpty(Map<?, ?> o) {
+    public static <K, V> boolean isEmpty(Map<K, V> o) {
         return o == null || o.isEmpty();
     }
 
