@@ -11,7 +11,7 @@ import org.raidar.app.sql.impl.utils.SqlUtils;
 import java.io.Serializable;
 import java.util.Objects;
 
-import static org.raidar.app.sql.impl.SqlConstants.*;
+import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 
 /** SQL-выражение - составляющая часть условия или вывода SQL-запроса. */
 @SuppressWarnings("SameParameterValue")

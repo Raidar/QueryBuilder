@@ -7,7 +7,7 @@ import org.raidar.app.sql.impl.provider.SqlQueryParameterSubstitutor;
 import java.io.Serializable;
 import java.util.Map;
 
-import static org.raidar.app.sql.impl.SqlConstants.CLAUSE_SEPARATOR;
+import static org.raidar.app.sql.impl.constant.SqlConstants.CLAUSE_SEPARATOR;
 
 // Implement QueryWithParams here:
 /** Пользовательский SQL-запрос. */

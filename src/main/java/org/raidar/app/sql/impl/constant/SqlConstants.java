@@ -1,6 +1,5 @@
-package org.raidar.app.sql.impl;
+package org.raidar.app.sql.impl.constant;
 
-import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class SqlConstants {
@@ -34,18 +33,9 @@ public class SqlConstants {
     private static final String NAME_REGEX = "[A-Za-z][A-Za-z\\d_]{0," + (NAME_DATA_LEN - 2) + "}";
     public static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
 
-    public static final String MIN_TIMESTAMP_VALUE = "'-infinity'";
-    public static final String MAX_TIMESTAMP_VALUE = "'infinity'";
-
-    // Date format to use in queries.
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
-    public static final String SQL_DATE_FORMAT = "DD.MM.YYYY";
-
-    // Datetime format to use in queries.
-    private static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
-    public static final String SQL_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS";
-
     public static final String TO_TIMESTAMP_FORMAT = "to_timestamp(%1$s, %2$s)";
+
+    private SqlConstants() {
+        // Nothing to do.
+    }
 }

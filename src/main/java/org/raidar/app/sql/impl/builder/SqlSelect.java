@@ -4,7 +4,7 @@ import org.raidar.app.sql.api.model.SqlSelectPartEnum;
 import org.raidar.app.sql.impl.utils.CommonUtils;
 import org.raidar.app.sql.impl.utils.SqlUtils;
 
-import static org.raidar.app.sql.impl.SqlConstants.*;
+import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 import static org.raidar.app.sql.impl.utils.CommonUtils.isBlank;
 
 /** SQL-оператор SELECT. */

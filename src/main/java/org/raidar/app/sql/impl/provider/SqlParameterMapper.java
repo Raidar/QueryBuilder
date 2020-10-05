@@ -6,8 +6,11 @@ import org.raidar.app.sql.api.provider.SqlParamMapper;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import static org.raidar.app.sql.impl.SqlConstants.NULL_VALUE;
-import static org.raidar.app.sql.impl.utils.SqlUtils.*;
+import static org.raidar.app.sql.impl.constant.DateTimeConstants.SQL_TIMESTAMP_FORMAT;
+import static org.raidar.app.sql.impl.constant.SqlConstants.NULL_VALUE;
+import static org.raidar.app.sql.impl.utils.DateTimeUtils.formatDateTime;
+import static org.raidar.app.sql.impl.utils.DateTimeUtils.toTimestampWithoutTimeZone;
+import static org.raidar.app.sql.impl.utils.SqlUtils.escapeValue;
 
 public class SqlParameterMapper implements SqlParamMapper {
 
@@ -26,13 +29,11 @@ public class SqlParameterMapper implements SqlParamMapper {
         if (value == null)
             return NULL_VALUE;
 
-        if (value instanceof Number) {
+        if (value instanceof Number)
             return value.toString();
-        }
 
-        if (value instanceof LocalDateTime) {
-            return toTimestampWithoutTimeZone(formatDateTime((LocalDateTime) value));
-        }
+        if (value instanceof LocalDateTime)
+            return toTimestampWithoutTimeZone(formatDateTime((LocalDateTime) value), SQL_TIMESTAMP_FORMAT);
 
         return escapeValue(value.toString());
     }

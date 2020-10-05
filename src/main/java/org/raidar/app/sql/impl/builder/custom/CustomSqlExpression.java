@@ -1,6 +1,6 @@
 package org.raidar.app.sql.impl.builder.custom;
 
-import org.raidar.app.sql.impl.SqlConstants;
+import org.raidar.app.sql.impl.constant.SqlConstants;
 import org.raidar.app.sql.impl.builder.SqlExpression;
 
 /** Пользовательское SQL-выражение. */

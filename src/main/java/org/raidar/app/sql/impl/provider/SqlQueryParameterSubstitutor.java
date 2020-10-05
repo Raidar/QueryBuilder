@@ -5,7 +5,7 @@ import org.raidar.app.sql.api.builder.SqlQuery;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
 import org.raidar.app.sql.api.provider.SqlQueryParamSubstitutor;
 
-import static org.raidar.app.sql.impl.SqlConstants.BIND_PREFIX;
+import static org.raidar.app.sql.impl.constant.SqlConstants.BIND_PREFIX;
 
 public class SqlQueryParameterSubstitutor implements SqlQueryParamSubstitutor {
 

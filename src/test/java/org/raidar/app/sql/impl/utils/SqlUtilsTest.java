@@ -36,4 +36,9 @@ public class SqlUtilsTest extends SqlBaseTest {
         assertEquals("'va''lue'", escapeValue("va'lue"));
         assertEquals("'v.a.l.u.e'", escapeValue("v.a.l.u.e"));
     }
+
+    @Test
+    public void testFormatDateTime() {
+
+    }
 }
