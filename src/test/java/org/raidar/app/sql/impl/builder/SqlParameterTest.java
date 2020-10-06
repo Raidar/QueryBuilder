@@ -15,9 +15,9 @@ import static org.junit.Assert.*;
 
 public class SqlParameterTest extends SqlBaseTest {
 
-    Map<String, List<Serializable>> constructorArgsMap = createTestConstructorArgsMap();
+    private static final Map<String, List<Serializable>> PARAM_NAME_VALUES_MAP = createParamNameValuesMap();
 
-    private static Map<String, List<Serializable>> createTestConstructorArgsMap() {
+    private static Map<String, List<Serializable>> createParamNameValuesMap() {
 
         Map<String, List<Serializable>> result = new HashMap<>(7);
         result.put("str", List.of("string value", "other value"));
@@ -33,69 +33,7 @@ public class SqlParameterTest extends SqlBaseTest {
     @Test
     public void testClass() {
 
-        constructorArgsMap.forEach(this::testClass);
-    }
-
-    @Test
-    public void testClassFailed() {
-
-        testClassFailed(null, "null", IllegalArgumentException.class);
-        testClassFailed(null, 0, IllegalArgumentException.class);
-        testClassFailed(null, BigInteger.ZERO, IllegalArgumentException.class);
-    }
-
-    @Test
-    public void testCloneFailed() {
-
-        try {
-            new SqlParameter(null);
-            fail(getFailedMessage(IllegalArgumentException.class));
-
-        } catch (RuntimeException e) {
-
-            assertEquals(IllegalArgumentException.class, e.getClass());
-            assertNotNull(getExceptionMessage(e));
-        }
-    }
-
-    @Test
-    public void testSpecialEquals() {
-
-        SqlParameter current = new SqlParameter("text", "text");
-        assertSpecialEquals(current);
-    }
-
-    @Test
-    public void testCompareTo() {
-
-        constructorArgsMap.forEach(this::testCompareTo);
-    }
-
-    private void testCompareTo(String name, List<Serializable> list) {
-
-        Serializable value = list.get(0);
-        SqlParameter current = new SqlParameter(name, value);
-
-        SqlParameter similar = new SqlParameter(name, value);
-        assertEquals(0, current.compareTo(similar));
-
-        SqlParameter previous = new SqlParameter("A" + name.substring(1), value);
-        assertTrue(current.compareTo(previous) > 0);
-
-        previous = new SqlParameter("z" + name.substring(1), value);
-        assertTrue(current.compareTo(previous) < 0);
-
-        previous = new SqlParameter("A " + name, value);
-        assertTrue(current.compareTo(previous) > 0);
-
-        SqlParameter following = new SqlParameter(name.substring(0, name.length() - 1) + "a", value);
-        assertTrue(current.compareTo(following) > 0);
-
-        following = new SqlParameter(name.substring(0, name.length() - 1) + "z", value);
-        assertTrue(current.compareTo(following) < 0);
-
-        following = new SqlParameter(name + " z", value);
-        assertTrue(current.compareTo(following) < 0);
+        PARAM_NAME_VALUES_MAP.forEach(this::testClass);
     }
 
     private void testClass(String name, List<Serializable> list) {
@@ -138,6 +76,14 @@ public class SqlParameterTest extends SqlBaseTest {
         assertObjects(Assert::assertNotEquals, current, otherText);
     }
 
+    @Test
+    public void testClassFailed() {
+
+        testClassFailed(null, "null", IllegalArgumentException.class);
+        testClassFailed(null, 0, IllegalArgumentException.class);
+        testClassFailed(null, BigInteger.ZERO, IllegalArgumentException.class);
+    }
+
     @SuppressWarnings("SameParameterValue")
     private void testClassFailed(String name, Serializable value, Class<?> expectedClass) {
 
@@ -150,6 +96,60 @@ public class SqlParameterTest extends SqlBaseTest {
             assertEquals(expectedClass, e.getClass());
             assertNotNull(getExceptionMessage(e));
         }
+    }
+
+    @Test
+    public void testCloneFailed() {
+
+        try {
+            new SqlParameter(null);
+            fail(getFailedMessage(IllegalArgumentException.class));
+
+        } catch (RuntimeException e) {
+
+            assertEquals(IllegalArgumentException.class, e.getClass());
+            assertNotNull(getExceptionMessage(e));
+        }
+    }
+
+    @Test
+    public void testSpecialEquals() {
+
+        SqlParameter current = new SqlParameter("text", "text");
+        assertSpecialEquals(current);
+    }
+
+    @Test
+    public void testCompareTo() {
+
+        PARAM_NAME_VALUES_MAP.forEach(this::testCompareTo);
+    }
+
+    private void testCompareTo(String name, List<Serializable> list) {
+
+        Serializable value = list.get(0);
+        SqlParameter current = new SqlParameter(name, value);
+
+        SqlParameter similar = new SqlParameter(name, value);
+        assertEquals(0, current.compareTo(similar));
+
+        SqlParameter previous = new SqlParameter("A" + name.substring(1), value);
+        assertTrue(current.compareTo(previous) > 0);
+
+        previous = new SqlParameter("z" + name.substring(1), value);
+        assertTrue(current.compareTo(previous) < 0);
+
+        previous = new SqlParameter("A " + name, value);
+        assertTrue(current.compareTo(previous) > 0);
+
+        SqlParameter following = new SqlParameter(name.substring(0, name.length() - 1) + "a", value);
+        assertTrue(current.compareTo(following) > 0);
+
+        following = new SqlParameter(name.substring(0, name.length() - 1) + "z", value);
+        assertTrue(current.compareTo(following) < 0);
+
+        following = new SqlParameter(name + " z", value);
+        assertTrue(current.compareTo(following) < 0);
     }
 
     private SqlParameter copy(SqlParameter source) {
