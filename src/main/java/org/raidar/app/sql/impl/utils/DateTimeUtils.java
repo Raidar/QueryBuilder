@@ -1,8 +1,10 @@
 package org.raidar.app.sql.impl.utils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import static org.raidar.app.sql.impl.constant.DateTimeConstants.*;
+import static org.raidar.app.sql.impl.constant.DateTimeConstants.MAX_TIMESTAMP_VALUE;
+import static org.raidar.app.sql.impl.constant.DateTimeConstants.MIN_TIMESTAMP_VALUE;
 import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 import static org.raidar.app.sql.impl.utils.SqlUtils.escapeValue;
 
@@ -12,9 +14,9 @@ public class DateTimeUtils {
         // Nothing to do.
     }
 
-    public static String formatDateTime(LocalDateTime value) {
+    public static String formatDateTime(LocalDateTime value, DateTimeFormatter formatter) {
 
-        return (value != null) ? value.format(DATETIME_FORMATTER) : null;
+        return (value != null) ? value.format(formatter) : null;
     }
 
     public static String toTimestamp(String value, String format) {
