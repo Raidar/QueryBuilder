@@ -33,6 +33,7 @@ public class SqlConstants {
     private static final String NAME_REGEX = "[A-Za-z][A-Za-z\\d_]{0," + (NAME_DATA_LEN - 2) + "}";
     public static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
 
+    public static final String TO_DATE_FORMAT = "to_date(%1$s, %2$s)";
     public static final String TO_TIMESTAMP_FORMAT = "to_timestamp(%1$s, %2$s)";
 
     private SqlConstants() {

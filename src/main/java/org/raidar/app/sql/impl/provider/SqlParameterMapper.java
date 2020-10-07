@@ -2,30 +2,71 @@ package org.raidar.app.sql.impl.provider;
 
 import org.raidar.app.sql.api.builder.SqlParam;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
+import org.raidar.app.sql.impl.utils.DateTimeUtils;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.raidar.app.sql.impl.constant.SqlConstants.NULL_VALUE;
-import static org.raidar.app.sql.impl.utils.DateTimeUtils.formatDateTime;
-import static org.raidar.app.sql.impl.utils.DateTimeUtils.toTimestampWithoutTimeZone;
+import static org.raidar.app.sql.impl.utils.DateTimeUtils.*;
 import static org.raidar.app.sql.impl.utils.SqlUtils.escapeValue;
 
 public class SqlParameterMapper implements SqlParamMapper {
 
     // Date format to use in queries.
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
-    public static final String SQL_DATE_FORMAT = "DD.MM.YYYY";
+    private String dateFormat = "yyyy-MM-dd";
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
+    private String sqlDateFormat = "DD.MM.YYYY";
 
     // Datetime format to use in queries.
-    private static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
-    public static final String SQL_TIMESTAMP_FORMAT = "YYYY-MM-DD HH24:MI:SS";
+    private String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+    private String sqlDateTimeFormat = "YYYY-MM-DD HH24:MI:SS";
+
+    private boolean useTimeZone = false;
 
     public SqlParameterMapper() {
         // Nothing to do.
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public String getSqlDateFormat() {
+        return sqlDateFormat;
+    }
+
+    public void setDateFormat(String format, String sqlFormat) {
+
+        dateFormat = format;
+        dateFormatter = DateTimeFormatter.ofPattern(this.dateFormat);
+        sqlDateFormat = sqlFormat;
+    }
+
+    public String getDateTimeFormat() {
+        return dateTimeFormat;
+    }
+
+    public String getSqlDateTimeFormat() {
+        return sqlDateTimeFormat;
+    }
+
+    public void setDateTimeFormat(String format, String sqlFormat) {
+
+        dateTimeFormat = format;
+        dateTimeFormatter = DateTimeFormatter.ofPattern(this.dateTimeFormat);
+        sqlDateTimeFormat = sqlFormat;
+    }
+
+    public boolean getUseTimeZone() {
+        return useTimeZone;
+    }
+
+    public void setUseTimeZone(boolean useTimeZone) {
+        this.useTimeZone = useTimeZone;
     }
 
     @Override
@@ -45,15 +86,27 @@ public class SqlParameterMapper implements SqlParamMapper {
         if (value instanceof Boolean)
             return value.toString();
 
+        if (value instanceof LocalDate)
+            return toDate((LocalDate) value);
+
         if (value instanceof LocalDateTime)
             return toTimestamp((LocalDateTime) value);
 
         return escapeValue(value.toString());
     }
 
+    private String toDate(LocalDate value) {
+
+        String stringValue = formatDate(value, dateFormatter);
+        return DateTimeUtils.toDate(stringValue, sqlDateFormat);
+    }
+
     private String toTimestamp(LocalDateTime value) {
 
-        String stringValue = formatDateTime(value, DATETIME_FORMATTER);
-        return toTimestampWithoutTimeZone(stringValue, SQL_TIMESTAMP_FORMAT);
+        String stringValue = formatDateTime(value, dateTimeFormatter);
+
+        return useTimeZone
+                ? toTimestampWithTimeZone(stringValue, sqlDateTimeFormat)
+                : toTimestampWithoutTimeZone(stringValue, sqlDateTimeFormat);
     }
 }
