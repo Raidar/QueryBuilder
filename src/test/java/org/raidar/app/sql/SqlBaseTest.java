@@ -14,29 +14,54 @@ import static org.junit.Assert.assertNotNull;
 public class SqlBaseTest {
 
     /** Check list for empty. */
-    public static <T> void assertEmpty(List<T> list) {
+    public <T> void assertEmpty(List<T> list) {
         assertEquals(Collections.<T>emptyList(), list);
     }
 
     /** Check map for empty. */
-    public static <K, V> void assertEmpty(Map<K, V> map) {
+    public <K, V> void assertEmpty(Map<K, V> map) {
         assertEquals(Collections.<K, V>emptyMap(), map);
     }
 
     /** Check objects using `equals`, `hashCode`, and `toString`. */
-    public static <T> void assertObjects(BiConsumer<Object, Object> doAssert, T current, T actual) {
+    public <T> void assertObjects(BiConsumer<Object, Object> doAssert, T current, T actual) {
 
         doAssert.accept(current, actual);
-        
-        if (current != null && actual != null) {
 
+        if (current == null || actual == null)
+            return;
+
+        if (isOverridingHashCode(current)) {
             doAssert.accept(current.hashCode(), actual.hashCode());
+        }
+
+        if (isOverridingToString(current)) {
             doAssert.accept(current.toString(), actual.toString());
+
         }
     }
 
+    /** Check `hashCode` overriding in class. */
+    private boolean isOverridingHashCode(Object o) {
+
+        return o.hashCode() != System.identityHashCode(o);
+    }
+
+    /** Check `toString` overriding in class. */
+    private boolean isOverridingToString(Object o) {
+
+        String actual = o.toString();
+        if (actual == null || actual.length() == 0)
+            return true;
+
+        String expected = o.getClass().getName() + "@" +
+                Integer.toHexString(o.hashCode());
+
+        return !actual.equals(expected);
+    }
+
     /** Check objects by special branches of `equals`. */
-    public static void assertSpecialEquals(Object current) {
+    public void assertSpecialEquals(Object current) {
 
         assertNotNull(current);
         assertObjects(Assert::assertEquals, current, current);
@@ -46,11 +71,13 @@ public class SqlBaseTest {
         assertObjects(Assert::assertNotEquals, current, other);
     }
 
-    public static String getFailedMessage(Class<?> expected) {
+    /** Get expected class message to use in `fail`. */
+    public String getFailedMessage(Class<?> expected) {
         return expected.getSimpleName() + " error expected";
     }
 
-    public static String getExceptionMessage(Exception exception) {
+    /** Get exception message to use in `assert`. */
+    public String getExceptionMessage(Exception exception) {
         return (exception != null) ? exception.getMessage() : null;
     }
 }
