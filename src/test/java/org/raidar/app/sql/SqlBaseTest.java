@@ -6,10 +6,10 @@ import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class SqlBaseTest {
 
@@ -37,7 +37,6 @@ public class SqlBaseTest {
 
         if (isOverridingToString(current)) {
             doAssert.accept(current.toString(), actual.toString());
-
         }
     }
 
@@ -60,7 +59,7 @@ public class SqlBaseTest {
         return !actual.equals(expected);
     }
 
-    /** Check objects by special branches of `equals`. */
+    /** Check objects for special branches of `equals`. */
     public void assertSpecialEquals(Object current) {
 
         assertNotNull(current);
@@ -69,6 +68,52 @@ public class SqlBaseTest {
 
         Object other = (!BigInteger.ZERO.equals(current)) ? BigInteger.ZERO : BigInteger.ONE;
         assertObjects(Assert::assertNotEquals, current, other);
+    }
+
+    /** Check lists for equality. */
+    public <T> void assertListEquals(List<T> expected, List<T> actual) {
+
+        if (expected == null || expected.isEmpty()) {
+            assertEmpty(actual);
+            return;
+        }
+
+        assertEquals(expected.size(), actual.size());
+        expected.forEach(item -> assertItemEquals(item, expected, actual));
+    }
+
+    /** Check lists for equality by item. */
+    public <T> void assertItemEquals(T item, List<T> expected, List<T> actual) {
+
+        if (item == null) {
+            assertEquals(expected.stream().filter(Objects::isNull).count(),
+                    actual.stream().filter(Objects::isNull).count()
+            );
+            return;
+        }
+
+        assertEquals(expected.stream().filter(item::equals).count(),
+                actual.stream().filter(item::equals).count()
+        );
+    }
+
+    /** Check lists for equality. */
+    public <K, V> void assertMapEquals(Map<K, V> expected, Map<K, V> actual) {
+
+        if (expected == null || expected.isEmpty()) {
+            assertEmpty(actual);
+            return;
+        }
+
+        assertEquals(expected.size(), actual.size());
+        expected.forEach((k, v) -> assertItemEquals(k, v, actual));
+    }
+
+    /** Check maps for equality by item. */
+    public <K, V> void assertItemEquals(K key, V value, Map<K, V> map) {
+
+        assertTrue(map.containsKey(key));
+        assertEquals(value, map.get(key));
     }
 
     /** Get expected class message to use in `fail`. */
