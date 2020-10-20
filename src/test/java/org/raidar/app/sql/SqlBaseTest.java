@@ -13,6 +13,8 @@ import static org.junit.Assert.*;
 
 public class SqlBaseTest {
 
+    private static final String ERROR_EXPECTED = " error expected";
+
     /** Check list for empty. */
     public <T> void assertEmpty(List<T> list) {
         assertEquals(Collections.<T>emptyList(), list);
@@ -59,7 +61,7 @@ public class SqlBaseTest {
         return !actual.equals(expected);
     }
 
-    /** Check objects for special branches of `equals`. */
+    /** Check objects by special branches of `equals`. */
     public void assertSpecialEquals(Object current) {
 
         assertNotNull(current);
@@ -118,7 +120,7 @@ public class SqlBaseTest {
 
     /** Get expected class message to use in `fail`. */
     public String getFailedMessage(Class<?> expected) {
-        return expected.getSimpleName() + " error expected";
+        return expected.getSimpleName() + ERROR_EXPECTED;
     }
 
     /** Get exception message to use in `assert`. */
