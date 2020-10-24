@@ -6,6 +6,7 @@ import org.raidar.app.sql.impl.builder.SqlParameter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -48,6 +49,20 @@ public class SqlParameterMapperTest extends SqlBaseTest {
 
         assertEquals("true", mapper.toString(null, true));
         assertEquals("false", mapper.toString(null, false));
+    }
+
+    @Test
+    public void testValueToStringWhenLocalDate() {
+
+        GregorianCalendar calendar = new GregorianCalendar(2013, Calendar.DECEMBER, 11, 10, 9, 8);
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        LocalDate date = calendar.toZonedDateTime().toLocalDate();
+
+        String expected = "to_date('2013-12-11', 'YYYY-MM-DD')";
+        assertEquals(expected, mapper.toString(null, date));
+
+        date = LocalDate.parse("2013-12-11", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        assertEquals(expected, mapper.toString(null, date));
     }
 
     @Test
