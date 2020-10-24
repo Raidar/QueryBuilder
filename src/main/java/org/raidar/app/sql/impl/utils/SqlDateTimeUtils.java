@@ -15,36 +15,43 @@ public class SqlDateTimeUtils {
         // Nothing to do.
     }
 
+    /** Convert date value to string to use in SQL expression. */
     public static String formatDate(LocalDate value, DateTimeFormatter formatter) {
 
         return (value != null) ? value.format(formatter) : null;
     }
 
+    /** Convert date-time value to string to use in SQL expression. */
     public static String formatDateTime(LocalDateTime value, DateTimeFormatter formatter) {
 
         return (value != null) ? value.format(formatter) : null;
     }
 
+    /** Convert date string to representation for SQL expression. */
     public static String toDate(String value, String format) {
 
         return toDateTime(TO_DATE_FORMAT, value, format);
     }
 
+    /** Convert date-time string to representation for SQL expression. */
     public static String toTimestamp(String value, String format) {
 
         return toDateTime(TO_TIMESTAMP_FORMAT, value, format);
     }
 
+    /** Convert date-time string to representation with timezone for SQL expression. */
     public static String toTimestampWithTimeZone(String value, String format) {
 
         return (value != null) ? toTimestamp(value, format) + CAST_OPERATOR + TIMESTAMP_WITH_TIME_ZONE : null;
     }
 
+    /** Convert date-time string to representation without timezone for SQL expression. */
     public static String toTimestampWithoutTimeZone(String value, String format) {
 
         return (value != null) ? toTimestamp(value, format) + CAST_OPERATOR + TIMESTAMP_WITHOUT_TIME_ZONE : null;
     }
 
+    /** Convert date/time string to representation for SQL expression. */
     private static String toDateTime(String format, String value, String valueFormat) {
 
         if (value == null)
