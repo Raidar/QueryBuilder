@@ -18,7 +18,7 @@ public class SqlParameterMapper implements SqlParamMapper {
     // Date format to use in queries.
     private String dateFormat = "yyyy-MM-dd";
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
-    private String sqlDateFormat = "DD.MM.YYYY";
+    private String sqlDateFormat = "YYYY-MM-DD";
 
     // Datetime format to use in queries.
     private String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
