@@ -56,13 +56,13 @@ public class SqlParameterMapperTest extends SqlBaseTest {
 
         GregorianCalendar calendar = new GregorianCalendar(2013, Calendar.DECEMBER, 11, 10, 9, 8);
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        LocalDate date = calendar.toZonedDateTime().toLocalDate();
+        LocalDate calendarDate = calendar.toZonedDateTime().toLocalDate();
 
         String expected = "to_date('2013-12-11', 'YYYY-MM-DD')";
-        assertEquals(expected, mapper.toString(null, date));
+        assertEquals(expected, mapper.toString(null, calendarDate));
 
-        date = LocalDate.parse("2013-12-11", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        assertEquals(expected, mapper.toString(null, date));
+        LocalDate parsedDate = LocalDate.parse("2013-12-11", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        assertEquals(expected, mapper.toString(null, parsedDate));
     }
 
     @Test
@@ -70,12 +70,29 @@ public class SqlParameterMapperTest extends SqlBaseTest {
 
         GregorianCalendar calendar = new GregorianCalendar(2013, Calendar.DECEMBER, 11, 10, 9, 8);
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        LocalDateTime dateTime = calendar.toZonedDateTime().toLocalDateTime();
+        LocalDateTime calendarDateTime = calendar.toZonedDateTime().toLocalDateTime();
 
         String expected = "to_timestamp('2013-12-11 10:09:08', 'YYYY-MM-DD HH24:MI:SS')\\:\\:timestamp without time zone";
-        assertEquals(expected, mapper.toString(null, dateTime));
+        assertEquals(expected, mapper.toString(null, calendarDateTime));
 
-        dateTime = LocalDateTime.parse("2013-12-11 10:09:08", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        assertEquals(expected, mapper.toString(null, dateTime));
+        LocalDateTime parsedDateTime = LocalDateTime.parse("2013-12-11 10:09:08", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        assertEquals(expected, mapper.toString(null, parsedDateTime));
+    }
+
+    @Test
+    public void testValueToStringWhenLocalDateTimeWithTimeZone() {
+
+        final SqlParameterMapper mapper = new SqlParameterMapper();
+        mapper.setUseTimeZone(true);
+
+        GregorianCalendar calendar = new GregorianCalendar(2013, Calendar.DECEMBER, 11, 10, 9, 8);
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        LocalDateTime calendarDateTime = calendar.toZonedDateTime().toLocalDateTime();
+
+        String expected = "to_timestamp('2013-12-11 10:09:08', 'YYYY-MM-DD HH24:MI:SS')\\:\\:timestamp with time zone";
+        assertEquals(expected, mapper.toString(null, calendarDateTime));
+
+        LocalDateTime parsedDateTime = LocalDateTime.parse("2013-12-11 10:09:08", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        assertEquals(expected, mapper.toString(null, parsedDateTime));
     }
 }
