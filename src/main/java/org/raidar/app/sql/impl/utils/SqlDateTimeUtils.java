@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static org.raidar.app.sql.impl.constant.DateTimeConstants.MAX_DATETIME_VALUE;
-import static org.raidar.app.sql.impl.constant.DateTimeConstants.MIN_DATETIME_VALUE;
+import static org.raidar.app.sql.impl.constant.SqlDateTimeConstants.MAX_DATETIME_VALUE;
+import static org.raidar.app.sql.impl.constant.SqlDateTimeConstants.MIN_DATETIME_VALUE;
 import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 import static org.raidar.app.sql.impl.utils.SqlUtils.escapeValue;
 
-public class DateTimeUtils {
+public class SqlDateTimeUtils {
 
-    private DateTimeUtils() {
+    private SqlDateTimeUtils() {
         // Nothing to do.
     }
 

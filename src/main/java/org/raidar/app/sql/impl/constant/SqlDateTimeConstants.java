@@ -1,11 +1,11 @@
 package org.raidar.app.sql.impl.constant;
 
-public class DateTimeConstants {
+public class SqlDateTimeConstants {
 
     public static final String MIN_DATETIME_VALUE = "-infinity";
     public static final String MAX_DATETIME_VALUE = "infinity";
 
-    private DateTimeConstants() {
+    private SqlDateTimeConstants() {
         // Nothing to do.
     }
 }

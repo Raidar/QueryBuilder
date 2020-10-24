@@ -2,7 +2,7 @@ package org.raidar.app.sql.impl.provider;
 
 import org.raidar.app.sql.api.builder.SqlParam;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
-import org.raidar.app.sql.impl.utils.DateTimeUtils;
+import org.raidar.app.sql.impl.utils.SqlDateTimeUtils;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.raidar.app.sql.impl.constant.SqlConstants.NULL_VALUE;
-import static org.raidar.app.sql.impl.utils.DateTimeUtils.*;
+import static org.raidar.app.sql.impl.utils.SqlDateTimeUtils.*;
 import static org.raidar.app.sql.impl.utils.SqlUtils.escapeValue;
 
 public class SqlParameterMapper implements SqlParamMapper {
@@ -98,7 +98,7 @@ public class SqlParameterMapper implements SqlParamMapper {
     private String toDate(LocalDate value) {
 
         String stringValue = formatDate(value, dateFormatter);
-        return DateTimeUtils.toDate(stringValue, sqlDateFormat);
+        return SqlDateTimeUtils.toDate(stringValue, sqlDateFormat);
     }
 
     private String toTimestamp(LocalDateTime value) {
