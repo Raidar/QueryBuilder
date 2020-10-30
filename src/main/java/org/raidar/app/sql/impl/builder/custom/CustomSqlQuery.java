@@ -1,7 +1,7 @@
 package org.raidar.app.sql.impl.builder.custom;
 
 import org.raidar.app.sql.api.builder.SqlParamList;
-import org.raidar.app.sql.impl.builder.SqlBuilder;
+import org.raidar.app.sql.impl.builder.SqlBuild;
 import org.raidar.app.sql.impl.provider.SqlQueryParameterSubstitutor;
 
 import java.io.Serializable;
@@ -9,9 +9,9 @@ import java.util.Map;
 
 import static org.raidar.app.sql.impl.constant.SqlConstants.CLAUSE_SEPARATOR;
 
-// Implement QueryWithParams here:
-/** Пользовательский SQL-запрос. */
-public class CustomSqlQuery extends SqlBuilder {
+/** Custom build of SQL query. */
+// to-do: Implement QueryWithParams here:
+public class CustomSqlQuery extends SqlBuild {
 
     public CustomSqlQuery() {
         // Nothing to do.

@@ -4,8 +4,8 @@ import org.raidar.app.sql.api.builder.SqlClause;
 import org.raidar.app.sql.impl.utils.CommonUtils;
 import org.raidar.app.sql.impl.utils.SqlUtils;
 
-/** Условие SQL-оператора. */
-public class SqlCondition extends SqlBuilder {
+/** SQL condition - a part of SQL build. */
+public class SqlCondition extends SqlBuild {
 
     private static final String LOGICAL_AND = " AND ";
     private static final String LOGICAL_OR = " OR ";

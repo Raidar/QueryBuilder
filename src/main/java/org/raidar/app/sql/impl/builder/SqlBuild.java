@@ -7,17 +7,17 @@ import org.raidar.app.sql.impl.utils.CommonUtils;
 import java.io.Serializable;
 import java.util.Objects;
 
-/** Построитель SQL-запроса. */
+/** SQL build - an implementation of SQL query. */
 @SuppressWarnings("SameParameterValue")
-public class SqlBuilder implements SqlQuery {
+public class SqlBuild implements SqlQuery {
 
-    /** Сборщик SQL-запроса. */
+    /** SQL query` text builder. */
     private final StringBuilder builder = new StringBuilder();
 
-    /** Список bind-параметров. */
+    /** List of bind parameters. */
     private final SqlParameterList params = new SqlParameterList();
 
-    public SqlBuilder() {
+    public SqlBuild() {
         // Nothing to do.
     }
 
@@ -35,7 +35,7 @@ public class SqlBuilder implements SqlQuery {
         params.clear();
     }
 
-    protected SqlBuilder append(String clause) {
+    protected SqlBuild append(String clause) {
 
         if (!CommonUtils.isEmpty(clause)) {
             builder.append(clause);
@@ -44,7 +44,7 @@ public class SqlBuilder implements SqlQuery {
         return this;
     }
 
-    protected SqlBuilder prepend(String clause) {
+    protected SqlBuild prepend(String clause) {
 
         if (!CommonUtils.isEmpty(clause)) {
             builder.insert(0, clause);
@@ -53,13 +53,13 @@ public class SqlBuilder implements SqlQuery {
         return this;
     }
 
-    public SqlBuilder bind(String name, Serializable value) {
+    public SqlBuild bind(String name, Serializable value) {
 
         params.add(name, value);
         return this;
     }
 
-    public SqlBuilder bind(SqlParamList params) {
+    public SqlBuild bind(SqlParamList params) {
 
         this.params.add(params);
         return this;
@@ -81,7 +81,7 @@ public class SqlBuilder implements SqlQuery {
     }
 
     @Override
-    public SqlBuilder enclose() {
+    public SqlBuild enclose() {
 
         if (isEmpty())
             throw new IllegalArgumentException("A query is empty.");
@@ -95,7 +95,7 @@ public class SqlBuilder implements SqlQuery {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SqlBuilder that = (SqlBuilder)o;
+        SqlBuild that = (SqlBuild)o;
         return (builder == that.builder ||
                 Objects.equals(builder.toString(), that.builder.toString())) &&
                 Objects.equals(params, that.params);
@@ -108,7 +108,7 @@ public class SqlBuilder implements SqlQuery {
 
     @Override
     public String toString() {
-        return "SqlBuilder{" +
+        return "SqlBuild{" +
                 "builder=" + builder +
                 ", params=" + params +
                 '}';
