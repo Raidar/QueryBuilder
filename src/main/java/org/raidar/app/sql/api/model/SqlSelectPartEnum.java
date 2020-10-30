@@ -2,7 +2,7 @@ package org.raidar.app.sql.api.model;
 
 import static java.util.List.of;
 
-/** Часть SQL-оператора SELECT. */
+/** Part of SELECT operator. */
 public enum SqlSelectPartEnum {
 
     EMPTY,

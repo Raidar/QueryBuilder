@@ -13,10 +13,10 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.raidar.app.sql.impl.utils.CommonUtils.isBlank;
 
-/** Список параметров SQL-запроса. */
+/** List of SQL parameters for SQL query. */
 public class SqlParameterList implements SqlParamList {
 
-    /** Список bind-параметров. */
+    /** List of bind parameters. */
     private final Map<String, SqlParam> params = new HashMap<>();
 
     public SqlParameterList() {

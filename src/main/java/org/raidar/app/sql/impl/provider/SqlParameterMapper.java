@@ -13,6 +13,7 @@ import static org.raidar.app.sql.impl.constant.SqlConstants.NULL_VALUE;
 import static org.raidar.app.sql.impl.utils.SqlDateTimeUtils.*;
 import static org.raidar.app.sql.impl.utils.SqlUtils.escapeValue;
 
+/** Mapper of SQL parameters. */
 public class SqlParameterMapper implements SqlParamMapper {
 
     // Date format to use in queries.

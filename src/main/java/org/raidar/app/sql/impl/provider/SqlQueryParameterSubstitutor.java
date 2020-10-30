@@ -7,11 +7,11 @@ import org.raidar.app.sql.api.provider.SqlQueryParamSubstitutor;
 
 import static org.raidar.app.sql.impl.constant.SqlConstants.BIND_PREFIX;
 
+/** Substitutor of bind-parameters` values for some queries. */
 public class SqlQueryParameterSubstitutor implements SqlQueryParamSubstitutor {
 
     private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
 
-    /** Подстановщик значений bind-параметров для некоторых запросов. */
     private final SqlParamMapper paramMapper;
 
     public SqlQueryParameterSubstitutor() {
@@ -32,7 +32,7 @@ public class SqlQueryParameterSubstitutor implements SqlQueryParamSubstitutor {
         if (query.getParams().isEmpty())
             return result;
 
-        // to-do: Переписать для ускорения: проходить sql по ":(bind)" и собирать result.
+        // to-do: Rewrite to speed-up: loop sql by ":(bind)" and collect result.
         for (SqlParam param : query.getParams().get()) {
             result = result.replace(BIND_PREFIX + param.getName(), paramMapper.toString(param));
         }

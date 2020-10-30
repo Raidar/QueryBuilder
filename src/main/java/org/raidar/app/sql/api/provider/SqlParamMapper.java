@@ -4,6 +4,7 @@ import org.raidar.app.sql.api.builder.SqlParam;
 
 import java.io.Serializable;
 
+/** Mapper of SQL parameters. */
 public interface SqlParamMapper {
 
     String toString(SqlParam param);

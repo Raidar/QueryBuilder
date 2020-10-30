@@ -1,9 +1,9 @@
 package org.raidar.app.sql.api.model;
 
-/** Тип значения в SQL-предложении. */
+/** Value type in SQL clause. */
 public enum SqlValueTypeEnum {
 
-    // to-do: Реализовать возможность задания типа параметра.
+    // to-do: Implement parameter type using.
     AUTO,
     STRING,
     INT,

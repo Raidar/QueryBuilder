@@ -3,7 +3,7 @@ package org.raidar.app.sql.impl.builder.custom;
 import org.raidar.app.sql.impl.constant.SqlConstants;
 import org.raidar.app.sql.impl.builder.SqlExpression;
 
-/** Пользовательское SQL-выражение. */
+/** Custom build of SQL expression. */
 public class CustomSqlExpression extends SqlExpression {
 
     private static final String CUSTOM_AND = " AND ";

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import static org.raidar.app.sql.impl.utils.CommonUtils.isBlank;
 
-/** Параметр SQL-запроса. */
+/** SQL parameter - a bind parameter of SQL query. */
 public class SqlParameter implements SqlParam {
 
     private final String name;

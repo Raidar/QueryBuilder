@@ -2,7 +2,7 @@ package org.raidar.app.sql.api.builder;
 
 import java.io.Serializable;
 
-/** SQL-предложение - часть SQL-запроса. */
+/** SQL clause - a base part of SQL query. */
 public interface SqlClause extends Serializable {
 
     void clear();

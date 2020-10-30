@@ -7,7 +7,7 @@ import org.raidar.app.sql.impl.utils.SqlUtils;
 import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 import static org.raidar.app.sql.impl.utils.CommonUtils.isBlank;
 
-/** SQL-оператор SELECT. */
+/** SELECT operator. */
 @SuppressWarnings("SameParameterValue")
 public class SqlSelect extends SqlOperator {
 

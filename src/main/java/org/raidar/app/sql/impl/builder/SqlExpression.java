@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 
-/** SQL-выражение - составляющая часть условия или вывода SQL-запроса. */
+/** SQL expression - a part of SQL condition or output. */
 @SuppressWarnings("SameParameterValue")
 public class SqlExpression implements SqlClause {
 

@@ -2,7 +2,7 @@ package org.raidar.app.sql.api.model;
 
 import static java.util.List.of;
 
-/** Часть SQL-выражения. */
+/** Part of SQL expression. */
 public enum SqlExpressionPartEnum {
 
     EMPTY,
