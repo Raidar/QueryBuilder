@@ -77,7 +77,7 @@ public class SqlBuild implements SqlQuery {
 
     @Override
     public boolean isEmpty() {
-        return builder.length() > 0;
+        return builder.length() == 0;
     }
 
     @Override
