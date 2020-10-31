@@ -25,14 +25,6 @@ public class SqlParameterMapperTest extends SqlBaseTest {
     private static final String JAVA_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String SQL_DATETIME_FORMAT = "YYYY-MM-DD HH24:MI:SS";
 
-    private static GregorianCalendar getTestCalendar() {
-
-        GregorianCalendar calendar = new GregorianCalendar(2013, Calendar.DECEMBER, 11, 10, 9, 8);
-        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        return calendar;
-    }
-
     private final SqlParameterMapper mapper = new SqlParameterMapper();
 
     @Test
@@ -150,5 +142,13 @@ public class SqlParameterMapperTest extends SqlBaseTest {
         mapper.setUseTimeZone(true);
 
         return mapper;
+    }
+
+    private static GregorianCalendar getTestCalendar() {
+
+        GregorianCalendar calendar = new GregorianCalendar(2013, Calendar.DECEMBER, 11, 10, 9, 8);
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        return calendar;
     }
 }
