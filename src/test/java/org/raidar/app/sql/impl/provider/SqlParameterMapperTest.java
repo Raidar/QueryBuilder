@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 
 public class SqlParameterMapperTest extends SqlBaseTest {
 
-    private static final GregorianCalendar CALENDAR = getTestCalendar();
+    private static final GregorianCalendar CALENDAR = createTestCalendar();
 
     private static final String JAVA_DATE_FORMAT = "yyyy-MM-dd";
     private static final String SQL_DATE_FORMAT = "YYYY-MM-DD";
@@ -144,7 +144,7 @@ public class SqlParameterMapperTest extends SqlBaseTest {
         return mapper;
     }
 
-    private static GregorianCalendar getTestCalendar() {
+    private static GregorianCalendar createTestCalendar() {
 
         GregorianCalendar calendar = new GregorianCalendar(2013, Calendar.DECEMBER, 11, 10, 9, 8);
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
