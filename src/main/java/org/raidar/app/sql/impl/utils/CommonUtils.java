@@ -25,7 +25,7 @@ public class CommonUtils {
         return o == null || o.isEmpty();
     }
 
-    static String enclose(String s, String prefix, String suffix) {
+    public static String enclose(String s, String prefix, String suffix) {
         return prefix + s + suffix;
     }
 }
