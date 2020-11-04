@@ -17,19 +17,6 @@ public class SqlParameterTest extends SqlBaseTest {
 
     private static final Map<String, List<Serializable>> PARAM_NAME_VALUES_MAP = createParamNameValuesMap();
 
-    private static Map<String, List<Serializable>> createParamNameValuesMap() {
-
-        Map<String, List<Serializable>> result = new HashMap<>(7);
-        result.put("str", List.of("string value", "other value"));
-        result.put("int", List.of(1, 10));
-        result.put("long", List.of(1L, 10L));
-        result.put("bool", List.of(true, false));
-        result.put("BigInt", List.of(BigInteger.ONE, BigInteger.TEN));
-        result.put("BigDec", List.of(BigDecimal.ONE, BigDecimal.TEN));
-
-        return result;
-    }
-
     @Test
     public void testClass() {
 
@@ -158,5 +145,18 @@ public class SqlParameterTest extends SqlBaseTest {
             return null;
 
         return new SqlParameter(source.getName(), source.getValue());
+    }
+
+    private static Map<String, List<Serializable>> createParamNameValuesMap() {
+
+        Map<String, List<Serializable>> result = new HashMap<>(7);
+        result.put("str", List.of("string value", "other value"));
+        result.put("int", List.of(1, 10));
+        result.put("long", List.of(1L, 10L));
+        result.put("bool", List.of(true, false));
+        result.put("BigInt", List.of(BigInteger.ONE, BigInteger.TEN));
+        result.put("BigDec", List.of(BigDecimal.ONE, BigDecimal.TEN));
+
+        return result;
     }
 }
