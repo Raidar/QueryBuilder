@@ -15,6 +15,11 @@ public class SqlBaseTest {
 
     private static final String ERROR_EXPECTED = " error expected";
 
+    /** Check string for empty. */
+    public void assertEmpty(String string) {
+        assertTrue(string == null || string.length() == 0);
+    }
+
     /** Check list for empty. */
     public <T> void assertEmpty(List<T> list) {
         assertEquals(Collections.<T>emptyList(), list);
