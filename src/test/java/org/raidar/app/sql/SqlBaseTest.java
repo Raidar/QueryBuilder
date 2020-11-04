@@ -30,6 +30,21 @@ public class SqlBaseTest {
         assertEquals(Collections.<K, V>emptyMap(), map);
     }
 
+    /** Check string for empty. */
+    public void assertNotEmpty(String string) {
+        assertFalse(string == null || string.length() == 0);
+    }
+
+    /** Check list for empty. */
+    public <T> void assertNotEmpty(List<T> list) {
+        assertNotEquals(Collections.<T>emptyList(), list);
+    }
+
+    /** Check map for empty. */
+    public <K, V> void assertNotEmpty(Map<K, V> map) {
+        assertNotEquals(Collections.<K, V>emptyMap(), map);
+    }
+
     /** Check objects using `equals`, `hashCode`, and `toString`. */
     public <T> void assertObjects(BiConsumer<Object, Object> doAssert, T current, T actual) {
 
