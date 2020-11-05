@@ -13,7 +13,7 @@ public class SqlSelect extends SqlOperator {
 
     private static final String ALIAS_OPERATOR = " AS ";
 
-    /** Текущая имеющаяся часть оператора. */
+    /** Current available part of operator. */
     private SqlSelectPartEnum part = SqlSelectPartEnum.EMPTY;
 
     public SqlSelect() {

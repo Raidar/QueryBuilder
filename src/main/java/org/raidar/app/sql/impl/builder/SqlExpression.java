@@ -51,10 +51,10 @@ public class SqlExpression implements SqlClause {
     private static final String IN = " in ";
     private static final String NOT_IN = " not in ";
 
-    /** Текущее выражение. */
+    /** Current expression. */
     private String expression = "";
 
-    /** Текущая имеющаяся часть выражения. */
+    /** Current available part of expression. */
     private SqlExpressionPartEnum part = SqlExpressionPartEnum.EMPTY;
 
     /** Подстановщик значений bind-параметров для некоторых запросов. */
@@ -198,7 +198,7 @@ public class SqlExpression implements SqlClause {
         return binary(NOT_IN, query != null ? query.enclose() : null);
     }
 
-    /** Унарный префиксный оператор. */
+    /** Unary prefixed operator. */
     protected SqlExpression prefixed(String operator) {
 
         if (CommonUtils.isBlank(operator))
@@ -207,7 +207,7 @@ public class SqlExpression implements SqlClause {
         return with(operator + this.expression);
     }
 
-    /** Унарный суффиксный оператор. */
+    /** Unary postfixed operator. */
     protected SqlExpression postfixed(String operator) {
 
         if (CommonUtils.isBlank(operator))
@@ -216,7 +216,7 @@ public class SqlExpression implements SqlClause {
         return with(this.expression + operator);
     }
 
-    /** Бинарный оператор. */
+    /** Binary operator. */
     protected SqlExpression binary(String operator, SqlClause operand) {
 
         if (CommonUtils.isBlank(operator))
@@ -228,7 +228,7 @@ public class SqlExpression implements SqlClause {
         return with(this.expression + operator + operand.getText());
     }
 
-    /** Тернарный оператор. */
+    /** Ternary operator. */
     protected SqlExpression ternary(String operator1, SqlClause operand1,
                                     String operator2, SqlClause operand2) {
 
@@ -247,7 +247,7 @@ public class SqlExpression implements SqlClause {
         return with(this.expression + operator1 + operand1.getText() + operator2 + operand2.getText());
     }
 
-    /** Диапазонный оператор. */
+    /** Ranged operator. */
     protected SqlExpression ranged(String operator, SqlClause left,
                                    String separator, SqlClause right) {
 
@@ -266,7 +266,7 @@ public class SqlExpression implements SqlClause {
         return with(this.expression + operator + left.getText() + separator + right.getText());
     }
 
-    /** Литерал. */
+    /** Literal only. */
     protected SqlExpression literal(String argument) {
 
         if (!SqlExpressionPartEnum.literalAllowed(part))
@@ -282,7 +282,7 @@ public class SqlExpression implements SqlClause {
         return this;
     }
 
-    /** Выражение с использованием литерала. */
+    /** Literal used expression. */
     protected SqlExpression with(String expression) {
 
         if (!SqlExpressionPartEnum.expressionAllowed(part))
@@ -298,7 +298,7 @@ public class SqlExpression implements SqlClause {
         return this;
     }
 
-    /** Подзапрос (для некоторых выражений). */
+    /** Subquery (for some expressions). */
     protected SqlExpression subquery(SqlQuery query) {
 
         if (!SqlExpressionPartEnum.subqueryAllowed(part))
