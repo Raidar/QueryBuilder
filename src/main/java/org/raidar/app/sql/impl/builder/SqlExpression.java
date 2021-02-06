@@ -57,7 +57,7 @@ public class SqlExpression implements SqlClause {
     /** Current available part of expression. */
     private SqlExpressionPartEnum part = SqlExpressionPartEnum.EMPTY;
 
-    /** Подстановщик значений bind-параметров для некоторых запросов. */
+    /** Mapper for bind parameters. */
     private final SqlParamMapper paramMapper;
 
     public SqlExpression() {
