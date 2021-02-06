@@ -3,6 +3,7 @@ package org.raidar.app.sql.test.model;
 import org.raidar.app.sql.api.builder.SqlStatement;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
 import org.raidar.app.sql.impl.builder.SqlExpression;
+import org.raidar.app.sql.impl.builder.SqlLiteral;
 
 public class SqlTestExpression extends SqlExpression {
 
@@ -15,7 +16,7 @@ public class SqlTestExpression extends SqlExpression {
     }
 
     @Override
-    public SqlExpression literal(String argument) {
+    public SqlExpression literal(SqlLiteral argument) {
         return super.literal(argument);
     }
 

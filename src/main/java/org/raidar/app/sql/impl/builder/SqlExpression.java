@@ -68,6 +68,7 @@ public class SqlExpression implements SqlClause {
         this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
     }
 
+    @Override
     public void clear() {
 
         expression = "";
@@ -75,34 +76,26 @@ public class SqlExpression implements SqlClause {
     }
 
     public SqlExpression nihil() {
-        return literal(NULL_VALUE);
+        return literal(new SqlLiteral().nihil());
     }
 
     public SqlExpression field(String name) {
-
-        if (CommonUtils.isBlank(name))
-            throw new IllegalArgumentException("A field name is empty.");
-
-        return literal(name);
+        return literal(new SqlLiteral().field(name));
     }
 
     public SqlExpression param(String name) {
-
-        if (CommonUtils.isBlank(name))
-            throw new IllegalArgumentException("A parameter name is empty.");
-
-        return literal(BIND_PREFIX + name);
+        return literal(new SqlLiteral().param(name));
     }
 
     public SqlExpression value(Serializable value) {
-        return literal(paramMapper.toString(null, value));
+        return literal(new SqlLiteral().value(value));
     }
 
-    public SqlExpression exists(SqlQuery query) {
+    public SqlExpression exists(SqlStatement query) {
         return subquery(query).prefixed(EXISTS);
     }
 
-    public SqlExpression notExists(SqlQuery query) {
+    public SqlExpression notExists(SqlStatement query) {
         return subquery(query).prefixed(NOT_EXISTS);
     }
 
@@ -267,15 +260,15 @@ public class SqlExpression implements SqlClause {
     }
 
     /** Literal only. */
-    protected SqlExpression literal(String argument) {
+    protected SqlExpression literal(SqlLiteral argument) {
 
         if (!SqlExpressionPartEnum.literalAllowed(part))
             throw new IllegalArgumentException("A literal is not allowed.");
 
-        if (CommonUtils.isBlank(argument))
+        if (SqlUtils.isEmpty(argument))
             throw new IllegalArgumentException("A literal argument is empty.");
 
-        this.expression = argument;
+        this.expression = argument.getText();
 
         part = SqlExpressionPartEnum.LITERAL;
 

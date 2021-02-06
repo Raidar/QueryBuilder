@@ -1,5 +1,6 @@
 package org.raidar.app.sql.impl.builder.custom;
 
+import org.raidar.app.sql.impl.builder.SqlLiteral;
 import org.raidar.app.sql.impl.constant.SqlConstants;
 import org.raidar.app.sql.impl.builder.SqlExpression;
 
@@ -15,7 +16,7 @@ public class CustomSqlExpression extends SqlExpression {
     public CustomSqlExpression custom(String custom) {
 
         // For custom expression insert only:
-        literal(SqlConstants.TRUE_VALUE);
+        literal(SqlLiteral.TRUE);
 
         return (CustomSqlExpression) with(CUSTOM_AND + custom);
     }
