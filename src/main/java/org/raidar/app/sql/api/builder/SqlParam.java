@@ -2,7 +2,7 @@ package org.raidar.app.sql.api.builder;
 
 import java.io.Serializable;
 
-/** SQL parameter - a bind part of SQL query. */
+/** SQL parameter - a bind part of SQL statement. */
 public interface SqlParam extends Serializable, Comparable<SqlParam> {
 
     String getName();

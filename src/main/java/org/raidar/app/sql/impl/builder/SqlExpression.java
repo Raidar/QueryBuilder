@@ -1,7 +1,7 @@
 package org.raidar.app.sql.impl.builder;
 
 import org.raidar.app.sql.api.builder.SqlClause;
-import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlStatement;
 import org.raidar.app.sql.api.model.SqlExpressionPartEnum;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
 import org.raidar.app.sql.impl.provider.SqlParameterMapper;
@@ -190,11 +190,11 @@ public class SqlExpression implements SqlClause {
         return ternary(NOT_LIKE, operand, LIKE_ESCAPE, escape);
     }
 
-    public SqlExpression in(SqlQuery query) {
+    public SqlExpression in(SqlStatement query) {
         return binary(IN, query != null ? query.enclose() : null);
     }
 
-    public SqlExpression notIn(SqlQuery query) {
+    public SqlExpression notIn(SqlStatement query) {
         return binary(NOT_IN, query != null ? query.enclose() : null);
     }
 
@@ -299,7 +299,7 @@ public class SqlExpression implements SqlClause {
     }
 
     /** Subquery (for some expressions). */
-    protected SqlExpression subquery(SqlQuery query) {
+    protected SqlExpression subquery(SqlStatement query) {
 
         if (!SqlExpressionPartEnum.subqueryAllowed(part))
             throw new IllegalArgumentException("A subquery is not allowed.");

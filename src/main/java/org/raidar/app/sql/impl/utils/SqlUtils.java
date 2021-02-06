@@ -1,7 +1,7 @@
 package org.raidar.app.sql.impl.utils;
 
 import org.raidar.app.sql.api.builder.SqlClause;
-import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlStatement;
 
 import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 
@@ -27,7 +27,7 @@ public class SqlUtils {
         return CommonUtils.isEmpty(value) ? value : "'" + value.replace("'", "''") + "'";
     }
 
-    public static boolean isEmpty(SqlQuery query) {
+    public static boolean isEmpty(SqlStatement query) {
         return query == null || query.isEmpty();
     }
 

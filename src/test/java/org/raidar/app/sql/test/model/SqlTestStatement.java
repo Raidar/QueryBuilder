@@ -2,9 +2,9 @@ package org.raidar.app.sql.test.model;
 
 import org.raidar.app.sql.api.builder.SqlClause;
 import org.raidar.app.sql.api.builder.SqlParamList;
-import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlStatement;
 
-public class SqlTestQuery implements SqlQuery {
+public class SqlTestStatement implements SqlStatement {
 
     private final StringBuilder builder = new StringBuilder();
 
@@ -39,13 +39,13 @@ public class SqlTestQuery implements SqlQuery {
         return this;
     }
 
-    public SqlTestQuery add(String text) {
+    public SqlTestStatement add(String text) {
 
         builder.append(text);
         return this;
     }
 
-    public SqlTestQuery add(SqlParamList params) {
+    public SqlTestStatement add(SqlParamList params) {
 
         this.params.add(params);
         return this;

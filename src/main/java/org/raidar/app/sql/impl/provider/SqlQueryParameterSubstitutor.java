@@ -1,14 +1,14 @@
 package org.raidar.app.sql.impl.provider;
 
 import org.raidar.app.sql.api.builder.SqlParam;
-import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlStatement;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
-import org.raidar.app.sql.api.provider.SqlQueryParamSubstitutor;
+import org.raidar.app.sql.api.provider.SqlStatementParamSubstitutor;
 
 import static org.raidar.app.sql.impl.constant.SqlConstants.BIND_PREFIX;
 
 /** Substitutor of bind-parameters` values for some queries. */
-public class SqlQueryParameterSubstitutor implements SqlQueryParamSubstitutor {
+public class SqlQueryParameterSubstitutor implements SqlStatementParamSubstitutor {
 
     private static final SqlParamMapper DEFAULT_PARAM_MAPPER = new SqlParameterMapper();
 
@@ -22,18 +22,18 @@ public class SqlQueryParameterSubstitutor implements SqlQueryParamSubstitutor {
         this.paramMapper = (paramMapper != null) ? paramMapper : DEFAULT_PARAM_MAPPER;
     }
 
-    public String substitute(SqlQuery query) {
+    public String substitute(SqlStatement statement) {
 
-        if (query.isEmpty())
+        if (statement.isEmpty())
             return null;
 
-        String result = query.getText();
+        String result = statement.getText();
 
-        if (query.getParams().isEmpty())
+        if (statement.getParams().isEmpty())
             return result;
 
         // to-do: Rewrite to speed-up: loop sql by ":(bind)" and collect result.
-        for (SqlParam param : query.getParams().get()) {
+        for (SqlParam param : statement.getParams().get()) {
             result = result.replace(BIND_PREFIX + param.getName(), paramMapper.toString(param));
         }
 

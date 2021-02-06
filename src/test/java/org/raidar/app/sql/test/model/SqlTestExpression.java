@@ -1,6 +1,6 @@
 package org.raidar.app.sql.test.model;
 
-import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlStatement;
 import org.raidar.app.sql.api.provider.SqlParamMapper;
 import org.raidar.app.sql.impl.builder.SqlExpression;
 
@@ -25,7 +25,7 @@ public class SqlTestExpression extends SqlExpression {
     }
 
     @Override
-    public SqlExpression subquery(SqlQuery query) {
+    public SqlExpression subquery(SqlStatement query) {
         return super.subquery(query);
     }
 }

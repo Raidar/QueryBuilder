@@ -2,9 +2,9 @@ package org.raidar.app.sql.impl.provider;
 
 import org.junit.Test;
 import org.raidar.app.sql.SqlBaseTest;
-import org.raidar.app.sql.api.builder.SqlQuery;
+import org.raidar.app.sql.api.builder.SqlStatement;
 import org.raidar.app.sql.test.model.SqlTestParamList;
-import org.raidar.app.sql.test.model.SqlTestQuery;
+import org.raidar.app.sql.test.model.SqlTestStatement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -29,7 +29,7 @@ public class SqlQueryParameterSubstitutorTest extends SqlBaseTest {
     @Test
     public void testSubstitute() {
 
-        SqlQuery query = createQuery();
+        SqlStatement query = createQuery();
         String result = substitutor.substitute(query);
         assertEquals(SQL_PARAM_TEXT, result);
     }
@@ -37,7 +37,7 @@ public class SqlQueryParameterSubstitutorTest extends SqlBaseTest {
     @Test
     public void testSubstituteWhenEmpty() {
 
-        SqlQuery query = createEmptyQuery();
+        SqlStatement query = createEmptyQuery();
         String result = substitutor.substitute(query);
         assertNull(result);
     }
@@ -45,7 +45,7 @@ public class SqlQueryParameterSubstitutorTest extends SqlBaseTest {
     @Test
     public void testSubstituteWhenTextOnly() {
 
-        SqlQuery query = createTextOnlyQuery();
+        SqlStatement query = createTextOnlyQuery();
         String result = substitutor.substitute(query);
         assertEquals(SQL_BASIC_TEXT, result);
     }
@@ -55,31 +55,31 @@ public class SqlQueryParameterSubstitutorTest extends SqlBaseTest {
 
         SqlQueryParameterSubstitutor substitutor = new SqlQueryParameterSubstitutor(null);
 
-        SqlQuery query = createEmptyQuery();
+        SqlStatement query = createEmptyQuery();
         String result = substitutor.substitute(query);
         assertNull(result);
     }
 
-    private SqlQuery createQuery() {
+    private SqlStatement createQuery() {
 
         SqlTestParamList params = new SqlTestParamList();
         params.add(SQL_PARAM_1_NAME, SQL_PARAM_1_VALUE);
         params.add(SQL_PARAM_2_NAME, SQL_PARAM_2_VALUE);
 
-        SqlTestQuery query = new SqlTestQuery();
+        SqlTestStatement query = new SqlTestStatement();
         query.add(SQL_BASIC_TEXT).add(params);
 
         return query;
     }
 
-    private SqlQuery createEmptyQuery() {
+    private SqlStatement createEmptyQuery() {
 
-        return new SqlTestQuery();
+        return new SqlTestStatement();
     }
 
-    private SqlQuery createTextOnlyQuery() {
+    private SqlStatement createTextOnlyQuery() {
 
-        SqlTestQuery query = new SqlTestQuery();
+        SqlTestStatement query = new SqlTestStatement();
         query.add(SQL_BASIC_TEXT);
 
         return query;

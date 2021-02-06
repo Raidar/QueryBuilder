@@ -5,7 +5,7 @@ import org.raidar.app.sql.impl.utils.CommonUtils;
 import org.raidar.app.sql.impl.utils.SqlUtils;
 
 /** SQL condition - a part of SQL build. */
-public class SqlCondition extends SqlBuild {
+public class SqlCondition extends SqlQuery {
 
     private static final String LOGICAL_AND = " AND ";
     private static final String LOGICAL_OR = " OR ";
@@ -14,15 +14,25 @@ public class SqlCondition extends SqlBuild {
         super();
     }
 
+    public SqlCondition with(SqlClause clause) {
+
+        if (!isEmpty())
+            throw new IllegalArgumentException("The clause is not empty.");
+
+        with(null, clause);
+
+        return this;
+    }
+
     public SqlCondition and(SqlClause clause) {
-        return add(LOGICAL_AND, clause);
+        return with(LOGICAL_AND, clause);
     }
 
     public SqlCondition or(SqlClause clause) {
-        return add(LOGICAL_OR, clause);
+        return with(LOGICAL_OR, clause);
     }
 
-    protected SqlCondition add(String operator, SqlClause clause) {
+    protected SqlCondition with(String operator, SqlClause clause) {
 
         if (SqlUtils.isEmpty(clause))
             throw new IllegalArgumentException("The clause is empty.");
@@ -47,7 +57,7 @@ public class SqlCondition extends SqlBuild {
     protected SqlCondition add(String concat, SqlClause... clauses) {
 
         for (SqlClause clause : clauses) {
-            add(concat, clause);
+            with(concat, clause);
         }
 
         return this;

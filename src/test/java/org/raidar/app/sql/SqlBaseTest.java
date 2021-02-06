@@ -147,4 +147,18 @@ public class SqlBaseTest {
     public String getExceptionMessage(Exception exception) {
         return (exception != null) ? exception.getMessage() : null;
     }
+
+    public void testThrowing(Class<?> expected, Runnable runnable) {
+
+        try {
+            runnable.run();
+
+            fail(getFailedMessage(expected));
+
+        } catch (RuntimeException e) {
+
+            assertEquals(expected, e.getClass());
+            assertNotNull(getExceptionMessage(e));
+        }
+    }
 }
