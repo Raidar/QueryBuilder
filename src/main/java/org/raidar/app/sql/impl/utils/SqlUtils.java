@@ -27,11 +27,11 @@ public class SqlUtils {
         return CommonUtils.isEmpty(value) ? value : "'" + value.replace("'", "''") + "'";
     }
 
-    public static boolean isEmpty(SqlStatement query) {
-        return query == null || query.isEmpty();
-    }
-
     public static boolean isEmpty(SqlClause expression) {
         return expression == null || expression.isEmpty();
+    }
+
+    public static boolean isEmpty(SqlStatement statement) {
+        return statement == null || statement.isEmpty();
     }
 }
