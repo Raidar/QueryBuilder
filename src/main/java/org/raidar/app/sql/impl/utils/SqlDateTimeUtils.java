@@ -4,9 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static org.raidar.app.sql.impl.constant.SqlDateTimeConstants.MAX_DATETIME_VALUE;
-import static org.raidar.app.sql.impl.constant.SqlDateTimeConstants.MIN_DATETIME_VALUE;
 import static org.raidar.app.sql.impl.constant.SqlConstants.*;
+import static org.raidar.app.sql.impl.constant.SqlDateTimeConstants.*;
 import static org.raidar.app.sql.impl.utils.SqlUtils.escapeValue;
 
 public class SqlDateTimeUtils {
@@ -42,13 +41,13 @@ public class SqlDateTimeUtils {
     /** Convert date-time string to representation with timezone for SQL expression. */
     public static String toTimestampWithTimeZone(String value, String format) {
 
-        return (value != null) ? toTimestamp(value, format) + CAST_OPERATOR + TIMESTAMP_WITH_TIME_ZONE : null;
+        return (value != null) ? toTimestamp(value, format) + CAST_OPERATOR + TIMESTAMP_WITH_TIME_ZONE : NULL_VALUE;
     }
 
     /** Convert date-time string to representation without timezone for SQL expression. */
     public static String toTimestampWithoutTimeZone(String value, String format) {
 
-        return (value != null) ? toTimestamp(value, format) + CAST_OPERATOR + TIMESTAMP_WITHOUT_TIME_ZONE : null;
+        return (value != null) ? toTimestamp(value, format) + CAST_OPERATOR + TIMESTAMP_WITHOUT_TIME_ZONE : NULL_VALUE;
     }
 
     /** Convert date/time string to representation for SQL expression. */
@@ -58,13 +57,9 @@ public class SqlDateTimeUtils {
             return NULL_VALUE;
 
         // Учесть другие константы: now, today etc.
-        switch(value) {
-            case MIN_DATETIME_VALUE:
-            case MAX_DATETIME_VALUE:
-                return escapeValue(value);
+        if (getSqlSpecials().contains(value))
+            return escapeValue(value);
 
-            default:
-                return String.format(format, escapeValue(value), escapeValue(valueFormat));
-        }
+        return String.format(format, escapeValue(value), escapeValue(valueFormat));
     }
 }
