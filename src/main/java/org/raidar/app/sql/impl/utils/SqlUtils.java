@@ -15,8 +15,20 @@ public class SqlUtils {
         return CommonUtils.enclose(clause, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
     }
 
+    public static boolean isEnclosed(String text) {
+        return CommonUtils.isEnclosed(text, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
+    }
+
     public static String enclose(SqlClause clause) {
         return CommonUtils.enclose(clause.getText(), NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
+    }
+
+    public static StringBuilder enclose(StringBuilder builder) {
+        return CommonUtils.enclose(builder, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
+    }
+
+    public static boolean isEnclosed(StringBuilder builder) {
+        return CommonUtils.isEnclosed(builder, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
     }
 
     public static String escapeName(String name) {

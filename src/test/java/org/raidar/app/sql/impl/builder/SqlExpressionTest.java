@@ -3,11 +3,10 @@ package org.raidar.app.sql.impl.builder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.raidar.app.sql.SqlBaseTest;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.raidar.app.sql.impl.utils.CommonUtils;
 
 import static org.junit.Assert.*;
+import static org.raidar.app.sql.impl.constant.SqlConstants.*;
 
 public class SqlExpressionTest extends SqlBaseTest {
 
@@ -26,12 +25,16 @@ public class SqlExpressionTest extends SqlBaseTest {
         assertSpecialEquals(expression);
         assertEmpty(expression.getText());
         assertTrue(expression.isEmpty());
+
+        testEmptyEnclosed(expression);
     }
 
     @Test
-    public void testEncloseEmpty() {
+    public void testLiteral() {
 
-        SqlExpression expression = new SqlExpression();
+    }
+
+    private void testEmptyEnclosed(SqlExpression expression) {
         try {
             expression.enclose();
             fail(getFailedMessage(IllegalArgumentException.class));
@@ -41,5 +44,19 @@ public class SqlExpressionTest extends SqlBaseTest {
             assertEquals(IllegalArgumentException.class, e.getClass());
             assertNotNull(getExceptionMessage(e));
         }
+    }
+
+    private void testDefaultEnclosed(SqlExpression expression, String value) {
+
+        String actual = expression.enclose().getText();
+        String expected = CommonUtils.enclose(value, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
+        assertEquals(expected, actual);
+    }
+
+    private void testNewLineEnclosed(SqlExpression expression, String value) {
+
+        String actual = expression.enclose().getText();
+        String expected = CommonUtils.enclose(value, NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
+        assertEquals(expected, actual);
     }
 }

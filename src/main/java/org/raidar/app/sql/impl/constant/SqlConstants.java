@@ -25,8 +25,8 @@ public class SqlConstants {
 
     public static final String DEFAULT_ENCLOSE_START = "(";
     public static final String DEFAULT_ENCLOSE_END = ")";
-    public static final String NEWLINE_ENCLOSE_START = "(\n";
-    public static final String NEWLINE_ENCLOSE_END = "\n)";
+    public static final String NEWLINE_ENCLOSE_START = DEFAULT_ENCLOSE_START + "\n";
+    public static final String NEWLINE_ENCLOSE_END = "\n" + DEFAULT_ENCLOSE_END;
 
     // By default, NAMEDATALEN is 64 so the maximum identifier length is 63 bytes.
     private static final int NAME_DATA_LEN = 64;

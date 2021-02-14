@@ -12,4 +12,6 @@ public interface SqlClause extends Serializable {
     boolean isEmpty();
 
     SqlClause enclose();
+
+    boolean isEnclosed();
 }

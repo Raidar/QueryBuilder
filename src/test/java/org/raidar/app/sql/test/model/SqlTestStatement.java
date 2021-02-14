@@ -3,6 +3,7 @@ package org.raidar.app.sql.test.model;
 import org.raidar.app.sql.api.builder.SqlClause;
 import org.raidar.app.sql.api.builder.SqlParamList;
 import org.raidar.app.sql.api.builder.SqlStatement;
+import org.raidar.app.sql.impl.utils.SqlUtils;
 
 public class SqlTestStatement implements SqlStatement {
 
@@ -35,8 +36,13 @@ public class SqlTestStatement implements SqlStatement {
     @Override
     public SqlClause enclose() {
 
-        builder.insert(0, "(").append(")");
+        SqlUtils.enclose(builder);
         return this;
+    }
+
+    @Override
+    public boolean isEnclosed() {
+        return SqlUtils.isEnclosed(this.builder);
     }
 
     public SqlTestStatement add(String text) {

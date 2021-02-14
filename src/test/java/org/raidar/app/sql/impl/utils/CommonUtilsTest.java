@@ -15,6 +15,9 @@ import static org.raidar.app.sql.impl.utils.CommonUtils.*;
 
 public class CommonUtilsTest extends SqlBaseTest {
 
+    private static final String ENCLOSE_PREFIX = "<";
+    private static final String ENCLOSE_SUFFIX = ">";
+
     @Test
     public void testIsEmptyString() {
 
@@ -24,6 +27,23 @@ public class CommonUtilsTest extends SqlBaseTest {
         assertFalse(isEmpty("abc def"));
         assertFalse(isEmpty("123"));
         assertFalse(isEmpty("."));
+    }
+
+    @Test
+    public void testIsEmptyBuilder() {
+
+        assertTrue(isEmptyBuilder(null));
+        assertTrue(isEmptyBuilder(""));
+        assertFalse(isEmptyBuilder(" "));
+        assertFalse(isEmptyBuilder("abc"));
+        assertFalse(isEmptyBuilder("abc def"));
+        assertFalse(isEmptyBuilder("123"));
+        assertFalse(isEmptyBuilder("."));
+    }
+
+    private boolean isEmptyBuilder(String s) {
+        StringBuilder b = (s != null) ? new StringBuilder(s) : null;
+        return isEmpty(b);
     }
 
     @Test
@@ -76,8 +96,75 @@ public class CommonUtilsTest extends SqlBaseTest {
     @Test
     public void testEncloseString() {
 
-        assertEquals("<>", enclose("", "<", ">"));
-        assertEquals("<a>", enclose("a", "<", ">"));
-        assertEquals("<1>", enclose("1", "<", ">"));
+        testEncloseString("<>", "");
+        testEncloseString("<a>", "a");
+        testEncloseString("<1>", "1");
+    }
+
+    private void testEncloseString(String expected, String s) {
+
+        assertFalse(isEnclosedString(s));
+
+        String actual = enclose(s, ENCLOSE_PREFIX, ENCLOSE_SUFFIX);
+        assertEquals(expected, actual);
+        assertTrue(isEnclosedString(actual));
+    }
+
+    @Test
+    public void testIsEnclosedString() {
+
+        assertFalse(isEnclosedString(""));
+        assertFalse(isEnclosedString("s"));
+        assertFalse(isEnclosedString(ENCLOSE_PREFIX + "s"));
+        assertFalse(isEnclosedString("s" + ENCLOSE_SUFFIX));
+        assertTrue(isEnclosedString(ENCLOSE_PREFIX + "s" + ENCLOSE_SUFFIX));
+    }
+
+    private boolean isEnclosedString(String s) {
+        return isEnclosed(s, ENCLOSE_PREFIX, ENCLOSE_SUFFIX);
+    }
+
+    @Test
+    public void testEncloseBuilder() {
+
+        testEncloseBuilder("<>", "");
+        testEncloseBuilder("<a>", "a");
+        testEncloseBuilder("<1>", "1");
+        testEncloseBuilder("<ab>", "a", "b");
+        testEncloseBuilder("<ab>", "a", "", "b");
+    }
+
+    private void testEncloseBuilder(String expected, String... strings) {
+
+        StringBuilder builder = new StringBuilder();
+        for (String s: strings) {
+            builder.append(s);
+        }
+
+        assertFalse(isEnclosed(builder, ENCLOSE_PREFIX, ENCLOSE_SUFFIX));
+
+        StringBuilder actual = enclose(builder, ENCLOSE_PREFIX, ENCLOSE_SUFFIX);
+        assertEquals(expected, actual.toString());
+        assertTrue(isEnclosed(actual, ENCLOSE_PREFIX, ENCLOSE_SUFFIX));
+    }
+
+    @Test
+    public void testIsEnclosedBuilder() {
+
+        assertFalse(isEnclosedBuilder(""));
+        assertFalse(isEnclosedBuilder("s"));
+        assertFalse(isEnclosedBuilder(ENCLOSE_PREFIX, "s"));
+        assertFalse(isEnclosedBuilder("s", ENCLOSE_SUFFIX));
+        assertTrue(isEnclosedBuilder(ENCLOSE_PREFIX, "s", ENCLOSE_SUFFIX));
+    }
+
+    private boolean isEnclosedBuilder(String... strings) {
+
+        StringBuilder builder = new StringBuilder();
+        for (String s: strings) {
+            builder.append(s);
+        }
+
+        return isEnclosed(builder, ENCLOSE_PREFIX, ENCLOSE_SUFFIX);
     }
 }

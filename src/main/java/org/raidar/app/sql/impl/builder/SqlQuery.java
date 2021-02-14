@@ -3,6 +3,7 @@ package org.raidar.app.sql.impl.builder;
 import org.raidar.app.sql.api.builder.SqlParamList;
 import org.raidar.app.sql.api.builder.SqlStatement;
 import org.raidar.app.sql.impl.utils.CommonUtils;
+import org.raidar.app.sql.impl.utils.SqlUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -86,8 +87,13 @@ public class SqlQuery implements SqlStatement {
         if (isEmpty())
             throw new IllegalArgumentException("A query is empty.");
 
-        builder.insert(0, "(").append(")");
+        SqlUtils.enclose(builder);
         return this;
+    }
+
+    @Override
+    public boolean isEnclosed() {
+        return SqlUtils.isEnclosed(this.builder);
     }
 
     @Override

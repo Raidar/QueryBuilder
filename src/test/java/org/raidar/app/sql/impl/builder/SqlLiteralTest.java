@@ -47,21 +47,8 @@ public class SqlLiteralTest extends SqlBaseTest {
         assertSpecialEquals(literal);
         assertEmpty(literal.getText());
         assertTrue(literal.isEmpty());
-    }
 
-    @Test
-    public void testEncloseEmpty() {
-
-        SqlLiteral literal = new SqlLiteral();
-        try {
-            literal.enclose();
-            fail(getFailedMessage(IllegalArgumentException.class));
-
-        } catch (RuntimeException e) {
-
-            assertEquals(IllegalArgumentException.class, e.getClass());
-            assertNotNull(getExceptionMessage(e));
-        }
+        testEmptyEnclosed(literal);
     }
 
     @Test
@@ -80,8 +67,8 @@ public class SqlLiteralTest extends SqlBaseTest {
         final String fieldName = "table.column";
         SqlLiteral literal = new SqlLiteral().field(fieldName);
         assertNotEmpty(literal.getText());
-
         assertEquals(fieldName, literal.getText());
+
         testDefaultEnclosed(literal, fieldName);
 
         EMPTY_VALUES.forEach(this::testFieldWhenEmpty);
@@ -103,6 +90,7 @@ public class SqlLiteralTest extends SqlBaseTest {
 
         String expected = BIND_PREFIX + name;
         assertEquals(expected, literal.getText());
+
         testDefaultEnclosed(literal, expected);
 
         EMPTY_VALUES.forEach(this::testParamWhenEmpty);
@@ -124,6 +112,7 @@ public class SqlLiteralTest extends SqlBaseTest {
 
         String expected = SqlUtils.escapeValue(value);
         assertEquals(expected, literal.getText());
+
         testDefaultEnclosed(literal, expected);
     }
 
@@ -132,7 +121,7 @@ public class SqlLiteralTest extends SqlBaseTest {
 
         EMPTY_VALUES.forEach(this::testLiteralWhenEmpty);
 
-        SqlLiteral literal = new SqlLiteral().literal("field");
+        SqlLiteral literal = new SqlTestLiteral().literal("field");
 
         testThrowing(IllegalStateException.class,
                 () -> literal.literal("value")
@@ -146,17 +135,22 @@ public class SqlLiteralTest extends SqlBaseTest {
         );
     }
 
+    private void testEmptyEnclosed(SqlLiteral literal) {
+        try {
+            literal.enclose();
+            fail(getFailedMessage(IllegalArgumentException.class));
+
+        } catch (RuntimeException e) {
+
+            assertEquals(IllegalArgumentException.class, e.getClass());
+            assertNotNull(getExceptionMessage(e));
+        }
+    }
+
     private void testDefaultEnclosed(SqlLiteral literal, String value) {
 
         String actual = literal.enclose().getText();
         String expected = CommonUtils.enclose(value, DEFAULT_ENCLOSE_START, DEFAULT_ENCLOSE_END);
-        assertEquals(expected, actual);
-    }
-
-    private void testNewLineEnclosed(SqlLiteral literal, String value) {
-
-        String actual = literal.enclose().getText();
-        String expected = CommonUtils.enclose(value, NEWLINE_ENCLOSE_START, NEWLINE_ENCLOSE_END);
         assertEquals(expected, actual);
     }
 

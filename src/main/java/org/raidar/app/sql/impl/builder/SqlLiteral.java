@@ -97,6 +97,11 @@ public class SqlLiteral implements SqlClause {
     }
 
     @Override
+    public boolean isEnclosed() {
+        return SqlUtils.isEnclosed(this.literal);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

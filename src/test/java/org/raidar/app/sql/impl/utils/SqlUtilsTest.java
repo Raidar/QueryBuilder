@@ -17,17 +17,56 @@ public class SqlUtilsTest extends SqlBaseTest {
     @Test
     public void testEncloseString() {
 
-        assertEquals("()", enclose(""));
-        assertEquals("(clause)", enclose("clause"));
-        assertEquals("(operator)", enclose("operator"));
+        testEncloseString("()", "");
+        testEncloseString("(text)", "text");
+    }
+
+    private void testEncloseString(String expected, String text) {
+
+        assertFalse(isEnclosed(text));
+
+        String actual = enclose(text);
+        assertEquals(expected, actual);
+        assertTrue(isEnclosed(actual));
     }
 
     @Test
     public void testEncloseClause() {
 
-        assertEquals("(\n\n)", enclose(new SqlLiteral()));
-        assertEquals("(\nclause\n)", enclose(new SqlLiteral().field("clause")));
-        assertEquals("(\n(true)\n)", enclose(new SqlCondition().with(SqlLiteral.TRUE)));
+        testEncloseClause("(\n\n)", new SqlLiteral(), false);
+        testEncloseClause("(\nclause\n)", new SqlLiteral().field("clause"), false);
+        testEncloseClause("(\n(true)\n)", new SqlCondition().with(SqlLiteral.TRUE), true);
+    }
+
+    private void testEncloseClause(String expected, SqlClause clause, boolean enclosed) {
+
+        assertEquals(enclosed, isEnclosed(clause.getText()));
+
+        String actual = enclose(clause);
+        assertEquals(expected, actual);
+        assertTrue(isEnclosed(actual));
+    }
+
+    @Test
+    public void testEncloseBuilder() {
+
+        testEncloseBuilder("()", "");
+        testEncloseBuilder("(clause)", "clause");
+        testEncloseBuilder("(clause clause)", "clause", " clause");
+    }
+
+    private void testEncloseBuilder(String expected, String... strings) {
+
+        StringBuilder builder = new StringBuilder();
+        for (String s: strings) {
+            builder.append(s);
+        }
+
+        assertFalse(isEnclosed(builder));
+
+        StringBuilder actual = enclose(builder);
+        assertEquals(expected, actual.toString());
+        assertTrue(isEnclosed(actual));
     }
 
     @Test

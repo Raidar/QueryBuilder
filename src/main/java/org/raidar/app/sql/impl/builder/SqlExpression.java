@@ -197,6 +197,9 @@ public class SqlExpression implements SqlClause {
         if (CommonUtils.isBlank(operator))
             throw new IllegalArgumentException("A prefixed operator is empty.");
 
+        if (part == SqlExpressionPartEnum.EXPRESSION)
+            enclose();
+
         return with(operator + this.expression);
     }
 
@@ -205,6 +208,9 @@ public class SqlExpression implements SqlClause {
 
         if (CommonUtils.isBlank(operator))
             throw new IllegalArgumentException("A postfixed operator is empty.");
+
+        if (part == SqlExpressionPartEnum.EXPRESSION)
+            enclose();
 
         return with(this.expression + operator);
     }
@@ -328,6 +334,12 @@ public class SqlExpression implements SqlClause {
                 : SqlUtils.enclose(this.expression);
 
         return this;
+    }
+
+    @Override
+    public boolean isEnclosed() {
+        return (part == SqlExpressionPartEnum.SUBQUERY) ||
+                SqlUtils.isEnclosed(this.expression);
     }
 
     @Override
