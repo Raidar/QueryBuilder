@@ -33,6 +33,7 @@ public class SqlParameterTest extends SqlBaseTest {
 
         SqlParameter current = new SqlParameter(name, value);
         assertNotNull(current);
+        assertSpecialEquals(current);
         assertEquals(name, current.getName());
         assertEquals(value, current.getValue());
         assertTrue(current.isNameEquals(name));
@@ -97,13 +98,6 @@ public class SqlParameterTest extends SqlBaseTest {
             assertEquals(IllegalArgumentException.class, e.getClass());
             assertNotNull(getExceptionMessage(e));
         }
-    }
-
-    @Test
-    public void testSpecialEquals() {
-
-        SqlParameter current = new SqlParameter("text", "text");
-        assertSpecialEquals(current);
     }
 
     @Test

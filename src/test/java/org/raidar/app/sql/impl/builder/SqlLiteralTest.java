@@ -26,43 +26,40 @@ public class SqlLiteralTest extends SqlBaseTest {
     }
 
     @Test
-    public void testSpecialEquals() {
+    public void testClear() {
 
         SqlLiteral literal = new SqlLiteral();
-        assertSpecialEquals(literal);
+        try {
+            literal.clear();
+            fail(getFailedMessage(IllegalStateException.class));
+
+        } catch (RuntimeException e) {
+
+            assertEquals(IllegalStateException.class, e.getClass());
+            assertNotNull(getExceptionMessage(e));
+        }
     }
 
     @Test
     public void testEmpty() {
 
         SqlLiteral literal = new SqlLiteral();
+        assertSpecialEquals(literal);
         assertEmpty(literal.getText());
         assertTrue(literal.isEmpty());
+    }
 
+    @Test
+    public void testEncloseEmpty() {
+
+        SqlLiteral literal = new SqlLiteral();
         try {
             literal.enclose();
-
             fail(getFailedMessage(IllegalArgumentException.class));
 
         } catch (RuntimeException e) {
 
             assertEquals(IllegalArgumentException.class, e.getClass());
-            assertNotNull(getExceptionMessage(e));
-        }
-    }
-
-    @Test
-    public void testClear() {
-
-        SqlLiteral literal = new SqlLiteral();
-        try {
-            literal.clear();
-
-            fail(getFailedMessage(IllegalStateException.class));
-
-        } catch (RuntimeException e) {
-
-            assertEquals(IllegalStateException.class, e.getClass());
             assertNotNull(getExceptionMessage(e));
         }
     }

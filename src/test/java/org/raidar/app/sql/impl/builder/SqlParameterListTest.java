@@ -27,6 +27,7 @@ public class SqlParameterListTest extends SqlBaseTest {
 
         SqlParameterList current = new SqlParameterList();
         assertEmpty(current);
+        assertSpecialEquals(current);
 
         current.clear();
         assertEmpty(current);
@@ -194,13 +195,6 @@ public class SqlParameterListTest extends SqlBaseTest {
         testSize(current, 2);
         assertEquals(list, current.get());
         assertEquals(map, current.getMap());
-    }
-
-    @Test
-    public void testSpecialEquals() {
-
-        SqlParameterList current = new SqlParameterList();
-        assertSpecialEquals(current);
     }
 
     @Test

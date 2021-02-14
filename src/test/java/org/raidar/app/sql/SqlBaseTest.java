@@ -152,7 +152,6 @@ public class SqlBaseTest {
 
         try {
             runnable.run();
-
             fail(getFailedMessage(expected));
 
         } catch (RuntimeException e) {
