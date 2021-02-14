@@ -52,6 +52,22 @@ public class SqlLiteralTest extends SqlBaseTest {
     }
 
     @Test
+    public void testClear() {
+
+        SqlLiteral literal = new SqlLiteral();
+        try {
+            literal.clear();
+
+            fail(getFailedMessage(IllegalStateException.class));
+
+        } catch (RuntimeException e) {
+
+            assertEquals(IllegalStateException.class, e.getClass());
+            assertNotNull(getExceptionMessage(e));
+        }
+    }
+
+    @Test
     public void testNihil() {
 
         SqlLiteral literal = new SqlLiteral().nihil();
