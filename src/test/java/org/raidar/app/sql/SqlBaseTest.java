@@ -3,10 +3,7 @@ package org.raidar.app.sql;
 import org.junit.Assert;
 
 import java.math.BigInteger;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import static org.junit.Assert.*;
@@ -20,29 +17,29 @@ public class SqlBaseTest {
         assertTrue(string == null || string.length() == 0);
     }
 
-    /** Check list for empty. */
-    public <T> void assertEmpty(List<T> list) {
-        assertEquals(Collections.<T>emptyList(), list);
-    }
-
-    /** Check map for empty. */
-    public <K, V> void assertEmpty(Map<K, V> map) {
-        assertEquals(Collections.<K, V>emptyMap(), map);
-    }
-
-    /** Check string for empty. */
+    /** Check string for not empty. */
     public void assertNotEmpty(String string) {
         assertFalse(string == null || string.length() == 0);
     }
 
-    /** Check list for empty. */
-    public <T> void assertNotEmpty(List<T> list) {
-        assertNotEquals(Collections.<T>emptyList(), list);
+    /** Check collection for empty. */
+    public <T> void assertEmpty(Collection<T> collection) {
+        assertTrue(collection == null || collection.isEmpty());
     }
 
     /** Check map for empty. */
+    public <K, V> void assertEmpty(Map<K, V> map) {
+        assertTrue(map == null || map.isEmpty());
+    }
+
+    /** Check collection for not empty. */
+    public <T> void assertNotEmpty(Collection<T> collection) {
+        assertFalse(collection == null || collection.isEmpty());
+    }
+
+    /** Check map for not empty. */
     public <K, V> void assertNotEmpty(Map<K, V> map) {
-        assertNotEquals(Collections.<K, V>emptyMap(), map);
+        assertFalse(map == null || map.isEmpty());
     }
 
     /** Check objects using `equals`, `hashCode`, and `toString`. */
@@ -92,8 +89,8 @@ public class SqlBaseTest {
         assertObjects(Assert::assertNotEquals, current, other);
     }
 
-    /** Check lists for equality. */
-    public <T> void assertListEquals(List<T> expected, List<T> actual) {
+    /** Check collections for equality. */
+    public <T> void assertCollectionEquals(Collection<T> expected, Collection<T> actual) {
 
         if (expected == null || expected.isEmpty()) {
             assertEmpty(actual);
@@ -104,8 +101,8 @@ public class SqlBaseTest {
         expected.forEach(item -> assertItemEquals(item, expected, actual));
     }
 
-    /** Check lists for equality by item. */
-    public <T> void assertItemEquals(T item, List<T> expected, List<T> actual) {
+    /** Check collections for equality by item. */
+    public <T> void assertItemEquals(T item, Collection<T> expected, Collection<T> actual) {
 
         if (item == null) {
             assertEquals(expected.stream().filter(Objects::isNull).count(),
@@ -119,7 +116,7 @@ public class SqlBaseTest {
         );
     }
 
-    /** Check lists for equality. */
+    /** Check maps for equality. */
     public <K, V> void assertMapEquals(Map<K, V> expected, Map<K, V> actual) {
 
         if (expected == null || expected.isEmpty()) {
@@ -148,7 +145,8 @@ public class SqlBaseTest {
         return (exception != null) ? exception.getMessage() : null;
     }
 
-    public void testThrowing(Class<?> expected, Runnable runnable) {
+    /** Check runnable execution for throwing. */
+    public void assertThrowing(Class<?> expected, Runnable runnable) {
 
         try {
             runnable.run();
@@ -159,5 +157,43 @@ public class SqlBaseTest {
             assertEquals(expected, e.getClass());
             assertNotNull(getExceptionMessage(e));
         }
+    }
+
+    /** Check method execution for success. */
+    public void assertSuccess(MethodExecutor executor) {
+        try {
+            executor.execute();
+
+        } catch (RuntimeException e) {
+            fail(getExceptionMessage(e));
+        }
+    }
+
+    /** Check method execution for failure with single message. */
+    public void assertFailure(MethodExecutor executor, Class<?> expectedClass) {
+        try {
+            executor.execute();
+            fail(getFailedMessage(expectedClass));
+
+        } catch (RuntimeException e) {
+            assertEquals(expectedClass, e.getClass());
+            assertNotNull(getExceptionMessage(e));
+        }
+    }
+
+    /** Check method execution for failure with single message. */
+    public void assertFailure(MethodExecutor executor, Class<?> expectedClass, String expectedMessage) {
+        try {
+            executor.execute();
+            fail(getFailedMessage(expectedClass));
+
+        } catch (RuntimeException e) {
+            assertEquals(expectedClass, e.getClass());
+            assertEquals(expectedMessage, getExceptionMessage(e));
+        }
+    }
+
+    public interface MethodExecutor {
+        void execute();
     }
 }

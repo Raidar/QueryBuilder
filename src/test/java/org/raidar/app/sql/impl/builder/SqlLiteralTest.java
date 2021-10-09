@@ -76,7 +76,7 @@ public class SqlLiteralTest extends SqlBaseTest {
 
     private void testFieldWhenEmpty(String name) {
 
-        testThrowing(IllegalArgumentException.class,
+        assertThrowing(IllegalArgumentException.class,
                 () -> new SqlLiteral().field(name)
         );
     }
@@ -98,7 +98,7 @@ public class SqlLiteralTest extends SqlBaseTest {
 
     private void testParamWhenEmpty(String name) {
 
-        testThrowing(IllegalArgumentException.class,
+        assertThrowing(IllegalArgumentException.class,
                 () -> new SqlLiteral().param(name)
         );
     }
@@ -123,14 +123,14 @@ public class SqlLiteralTest extends SqlBaseTest {
 
         SqlLiteral literal = new SqlTestLiteral().literal("field");
 
-        testThrowing(IllegalStateException.class,
+        assertThrowing(IllegalStateException.class,
                 () -> literal.literal("value")
         );
     }
 
     private void testLiteralWhenEmpty(String argument) {
 
-        testThrowing(IllegalArgumentException.class,
+        assertThrowing(IllegalArgumentException.class,
                 () -> new SqlTestLiteral().literal(argument)
         );
     }
